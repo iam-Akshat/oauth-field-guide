@@ -1,0 +1,1236 @@
+[
+ {
+  "slug": "spotify",
+  "name": "Spotify Web API",
+  "domain": "spotify.com",
+  "category": "Music streaming",
+  "summary": "You can register an app and connect your own account in minutes, but Development Mode caps you at 5 allowlisted users, the owner must pay for Spotify Premium, and several endpoints are blocked. To let anyone connect you need Extended Quota Mode. Spotify only grants it to registered businesses with at least 250k monthly active users, after a partner application and a review that can take up to six weeks.",
+  "tier": "gated",
+  "tierReason": "Public access needs Extended Quota Mode, which since May 15, 2025 is limited to legally registered organizations with a launched service and at least 250k monthly active users.",
+  "quality": "researched",
+  "updatedAt": "2026-10-27",
+  "composio": {
+   "status": "byo",
+   "note": "Composio has no managed Spotify app, so you register your own Spotify app and enter its client ID and secret in Composio. Your app has the same 5-user Development Mode limit as any other app.",
+   "toolkit": "spotify"
+  },
+  "totals": {
+   "effort": {
+    "min": 1,
+    "max": 4,
+    "unit": "hours"
+   },
+   "wait": {
+    "min": 0,
+    "max": 6,
+    "unit": "weeks"
+   },
+   "firstConnection": "Today, in about 15\u201330 minutes, if you have Spotify Premium"
+  },
+  "stages": [
+   {
+    "id": "build",
+    "name": "Your account",
+    "whoCanConnect": "You, the app owner. Your account must have an active Spotify Premium subscription.",
+    "userSees": "Spotify's standard consent screen showing your app name, description and requested scopes.",
+    "effort": {
+     "min": 15,
+     "max": 30,
+     "unit": "minutes"
+    },
+    "wait": {
+     "min": 0,
+     "max": 0,
+     "unit": "minutes"
+    },
+    "unlock": "Add other users to the app's User Management allowlist.",
+    "evidence": {
+     "kind": "docs",
+     "sources": [
+      "s1",
+      "s2"
+     ],
+     "confidence": "high"
+    }
+   },
+   {
+    "id": "beta",
+    "name": "Development Mode users",
+    "whoCanConnect": "Up to 5 Spotify users you allowlist by name and email. Apps created before February 2026 that already had more users keep them.",
+    "userSees": "The normal consent screen. Users who aren't allowlisted may be able to log in, but their API calls return 403.",
+    "effort": {
+     "min": 5,
+     "max": 15,
+     "unit": "minutes"
+    },
+    "wait": {
+     "min": 0,
+     "max": 0,
+     "unit": "minutes"
+    },
+    "unlock": "Get your Partner Application approved, then get your Extended Quota Mode request approved.",
+    "evidence": {
+     "kind": "docs",
+     "sources": [
+      "s1",
+      "s4"
+     ],
+     "confidence": "high"
+    }
+   },
+   {
+    "id": "launch",
+    "name": "Extended Quota Mode",
+    "whoCanConnect": "Any Spotify user.",
+    "userSees": "The normal consent screen, with no user cap.",
+    "effort": {
+     "min": 1,
+     "max": 3,
+     "unit": "hours"
+    },
+    "wait": {
+     "min": 0,
+     "max": 6,
+     "unit": "weeks"
+    },
+    "unlock": null,
+    "evidence": {
+     "kind": "docs",
+     "sources": [
+      "s1"
+     ],
+     "confidence": "high"
+    }
+   }
+  ],
+  "requirements": [
+   {
+    "id": "spotify-premium",
+    "label": "Spotify Premium on the owner account",
+    "detail": "Apps in Development Mode stop working if the owner's Premium subscription lapses.",
+    "stage": "build",
+    "actor": "you",
+    "evidence": {
+     "kind": "docs",
+     "sources": [
+      "s1",
+      "s4"
+     ],
+     "confidence": "high"
+    }
+   },
+   {
+    "id": "https-redirect",
+    "label": "HTTPS redirect URI",
+    "detail": "Redirect URIs must use HTTPS. The exception is loopback IP literals (127.0.0.1 or [::1]), which may use HTTP. 'localhost' is rejected.",
+    "stage": "build",
+    "actor": "agent",
+    "evidence": {
+     "kind": "docs",
+     "sources": [
+      "s3"
+     ],
+     "confidence": "high"
+    }
+   },
+   {
+    "id": "registered-business",
+    "label": "Legally registered organization",
+    "detail": "Since May 15, 2025, Spotify accepts Extended Quota applications only from organizations, not individuals.",
+    "stage": "launch",
+    "actor": "you",
+    "evidence": {
+     "kind": "docs",
+     "sources": [
+      "s1"
+     ],
+     "confidence": "high"
+    }
+   },
+   {
+    "id": "250k-mau",
+    "label": "250k+ monthly active users and a launched service",
+    "detail": "You need an active, launched service with at least 250k MAU that is available in key Spotify markets and shows commercial viability.",
+    "stage": "launch",
+    "actor": "you",
+    "evidence": {
+     "kind": "docs",
+     "sources": [
+      "s1"
+     ],
+     "confidence": "high"
+    }
+   },
+   {
+    "id": "company-email",
+    "label": "Company email for the Partner Application",
+    "detail": "You must submit the Partner Application from a company email address.",
+    "stage": "launch",
+    "actor": "you",
+    "evidence": {
+     "kind": "docs",
+     "sources": [
+      "s1"
+     ],
+     "confidence": "high"
+    }
+   }
+  ],
+  "steps": [
+   {
+    "id": "sign-in-dashboard",
+    "title": "Sign in to the Spotify Developer Dashboard",
+    "actor": "you",
+    "stage": "build",
+    "time": {
+     "min": 2,
+     "max": 5,
+     "unit": "minutes"
+    },
+    "detail": "Sign in with the Spotify account that will own the app. That account needs an active Premium subscription for Development Mode apps to work.",
+    "actions": [
+     "Go to developer.spotify.com/dashboard",
+     "Log in and accept the Developer Terms if prompted"
+    ],
+    "agentNote": "A person must sign in. After that, an agent can take over in the browser.",
+    "gotcha": "If the owner's Premium lapses, the app stops working for every user.",
+    "link": {
+     "label": "Developer Dashboard",
+     "url": "https://developer.spotify.com/dashboard"
+    },
+    "evidence": {
+     "kind": "docs",
+     "sources": [
+      "s1",
+      "s2"
+     ],
+     "confidence": "high"
+    }
+   },
+   {
+    "id": "create-app",
+    "title": "Create the app",
+    "actor": "agent",
+    "stage": "build",
+    "time": {
+     "min": 5,
+     "max": 10,
+     "unit": "minutes"
+    },
+    "detail": "Click Create app and fill in the app name, a description (shown on the consent screen) and your redirect URI. Select Web API if the form asks which API you'll use.",
+    "actions": [
+     "App name",
+     "App description",
+     "Website (optional)",
+     "Redirect URIs: your redirect URI, exact match",
+     "Tick the Developer Terms of Service checkbox (a person should confirm)",
+     "Save"
+    ],
+    "agentNote": "An agent can fill in the form. A person should accept the Developer Terms.",
+    "gotcha": "The redirect URI must match exactly. 'localhost' isn't accepted, so use http://127.0.0.1:PORT for local testing and HTTPS everywhere else. Since February 2026, new developers get fewer Client IDs. Spotify raised the limit from 1 to 25 in July 2026.",
+    "link": {
+     "label": "Apps documentation",
+     "url": "https://developer.spotify.com/documentation/web-api/concepts/apps"
+    },
+    "evidence": {
+     "kind": "docs",
+     "sources": [
+      "s2",
+      "s3",
+      "s4"
+     ],
+     "confidence": "high"
+    }
+   },
+   {
+    "id": "copy-credentials",
+    "title": "Copy client ID and secret into your OAuth client",
+    "actor": "you",
+    "stage": "build",
+    "time": {
+     "min": 2,
+     "max": 5,
+     "unit": "minutes"
+    },
+    "detail": "The Client ID and Client Secret are on the app's settings page. Store the secret in your OAuth client or backend. Use the authorization code flow, with PKCE for public clients.",
+    "actions": [
+     "Open the app and go to Settings",
+     "Copy the Client ID",
+     "Reveal and store the Client Secret securely"
+    ],
+    "agentNote": "An agent can copy the Client ID. A person should handle the Client Secret.",
+    "gotcha": "If the secret is exposed, rotate it from the app page.",
+    "link": {
+     "label": "Developer Dashboard",
+     "url": "https://developer.spotify.com/dashboard"
+    },
+    "evidence": {
+     "kind": "docs",
+     "sources": [
+      "s2"
+     ],
+     "confidence": "high"
+    }
+   },
+   {
+    "id": "test-connection",
+    "title": "Connect your own account and test",
+    "actor": "agent",
+    "stage": "build",
+    "time": {
+     "min": 5,
+     "max": 10,
+     "unit": "minutes"
+    },
+    "detail": "Run the OAuth flow with the scopes you need, such as user-read-private or playlist-modify-private, then call /v1/me to confirm the token works.",
+    "agentNote": "An agent can run the flow once the person has completed the Spotify login.",
+    "gotcha": "Since February 2026, Development Mode blocks batch endpoints such as GET /tracks, browse endpoints, artist top tracks and other users' profiles and playlists. Search is limited to 10 results. Don't treat a 403 from these endpoints as an OAuth problem.",
+    "evidence": {
+     "kind": "docs",
+     "sources": [
+      "s4"
+     ],
+     "confidence": "high"
+    }
+   },
+   {
+    "id": "allowlist-users",
+    "title": "Allowlist up to 5 test users",
+    "actor": "agent",
+    "stage": "beta",
+    "time": {
+     "min": 5,
+     "max": 15,
+     "unit": "minutes"
+    },
+    "detail": "In the app's User Management settings, add each tester's name and the email on their Spotify account. Non-allowlisted users get 403 errors.",
+    "actions": [
+     "Open app Settings > User Management",
+     "Add name and Spotify account email for each user (max 5)"
+    ],
+    "agentNote": "An agent can add users if a person gives it their emails.",
+    "gotcha": "The email must match the tester's Spotify account email, or their API calls return 403.",
+    "link": {
+     "label": "Quota modes",
+     "url": "https://developer.spotify.com/documentation/web-api/concepts/quota-modes"
+    },
+    "evidence": {
+     "kind": "docs",
+     "sources": [
+      "s1"
+     ],
+     "confidence": "high"
+    }
+   },
+   {
+    "id": "partner-application",
+    "title": "Submit the Spotify Partner Application",
+    "actor": "you",
+    "stage": "launch",
+    "time": {
+     "min": 30,
+     "max": 60,
+     "unit": "minutes"
+    },
+    "detail": "From a company email, submit Spotify's Partner Application form. Your organization must be legally registered, have a launched service with 250k+ MAU and be available in key Spotify markets.",
+    "agentNote": "A person must submit this, because it involves business representations.",
+    "gotcha": "Individual developers and early-stage products don't qualify, and Spotify offers no path for them.",
+    "link": {
+     "label": "Quota modes",
+     "url": "https://developer.spotify.com/documentation/web-api/concepts/quota-modes"
+    },
+    "evidence": {
+     "kind": "docs",
+     "sources": [
+      "s1"
+     ],
+     "confidence": "high"
+    }
+   },
+   {
+    "id": "quota-extension-request",
+    "title": "Request Extended Quota Mode in the dashboard",
+    "actor": "you",
+    "stage": "launch",
+    "time": {
+     "min": 30,
+     "max": 90,
+     "unit": "minutes"
+    },
+    "detail": "After the partner approval, open Settings > Quota extension Request in the dashboard, complete the four-step questionnaire and submit it.",
+    "agentNote": "An agent can draft answers. A person should review and submit them.",
+    "gotcha": "Spotify checks the app against its Developer Policy. Apps that analyze Spotify content or misuse the brand are rejected.",
+    "link": {
+     "label": "Developer Dashboard",
+     "url": "https://developer.spotify.com/dashboard"
+    },
+    "evidence": {
+     "kind": "docs",
+     "sources": [
+      "s1",
+      "s5"
+     ],
+     "confidence": "high"
+    }
+   },
+   {
+    "id": "await-review",
+    "title": "Wait for Spotify's review",
+    "actor": "provider",
+    "stage": "launch",
+    "time": {
+     "min": 0,
+     "max": 6,
+     "unit": "weeks"
+    },
+    "detail": "Spotify says the review takes up to six weeks. It sends feedback to the email on the owner's Spotify account.",
+    "gotcha": "Developers report that a resubmission after rejection starts a new six-week wait.",
+    "evidence": {
+     "kind": "docs",
+     "sources": [
+      "s1",
+      "s6"
+     ],
+     "confidence": "medium"
+    }
+   }
+  ],
+  "blockers": [
+   {
+    "symptom": "403 Forbidden on API calls for some users even though login succeeded",
+    "cause": "The user isn't on the app's Development Mode allowlist, or the owner's Premium has lapsed.",
+    "fix": "Add the user in User Management (limit 5) and keep the owner's Premium active.",
+    "evidence": {
+     "kind": "docs",
+     "sources": [
+      "s1",
+      "s4"
+     ],
+     "confidence": "high"
+    }
+   },
+   {
+    "symptom": "INVALID_CLIENT: Invalid redirect URI",
+    "cause": "The redirect URI doesn't exactly match a registered one, or it uses 'localhost' or plain HTTP on a non-loopback host.",
+    "fix": "Register the exact URI. Use HTTPS, or http://127.0.0.1:PORT for local testing.",
+    "evidence": {
+     "kind": "docs",
+     "sources": [
+      "s3"
+     ],
+     "confidence": "high"
+    }
+   },
+   {
+    "symptom": "403 on endpoints like GET /tracks, /browse/new-releases or /users/{id}/playlists",
+    "cause": "Since February 2026, these endpoints aren't available to Development Mode apps.",
+    "fix": "Use single-item and /me endpoints, or get Extended Quota Mode.",
+    "evidence": {
+     "kind": "docs",
+     "sources": [
+      "s4"
+     ],
+     "confidence": "high"
+    }
+   },
+   {
+    "symptom": "Extended quota request rejected, or no path to apply as an individual",
+    "cause": "Since May 2025, only organizations with 250k+ MAU are eligible.",
+    "fix": "There isn't one for individuals or small apps. Stay within 5 users or apply once your organization qualifies.",
+    "evidence": {
+     "kind": "community",
+     "sources": [
+      "s1",
+      "s5"
+     ],
+     "confidence": "high"
+    }
+   }
+  ],
+  "unknowns": [
+   {
+    "question": "How long does Partner Application approval take, separate from the six-week quota review?",
+    "why": "The docs give a timeline only for the quota extension review.",
+    "resolve": "Ask Spotify when you submit the Partner Application, or check the Spotify for Developers community forum."
+   },
+   {
+    "question": "Does Spotify grant exceptions below 250k MAU, for example for strategic partners?",
+    "why": "The docs list the criteria as firm, and the community has no confirmed exceptions.",
+    "resolve": "Contact Spotify through the Partner Application."
+   },
+   {
+    "question": "When will the endpoint restrictions apply to Development Mode apps created before February 2026?",
+    "why": "Spotify postponed the March 9, 2026 date for existing apps.",
+    "resolve": "Watch the Spotify developer blog and the migration guide."
+   }
+  ],
+  "handoff": {
+   "agentCan": [
+    "Fill in the create-app form and redirect URIs",
+    "Copy the Client ID into your OAuth client config",
+    "Add allowlisted users in User Management",
+    "Run and test the OAuth flow after a person logs in",
+    "Draft answers for the quota extension questionnaire"
+   ],
+   "youMust": [
+    "Sign in with a Spotify Premium account and accept the Developer Terms",
+    "Handle and store the Client Secret",
+    "Confirm your organization meets the 250k MAU business criteria",
+    "Submit the Partner Application from a company email",
+    "Submit the Extended Quota request and respond to Spotify's emails"
+   ]
+  },
+  "sources": [
+   {
+    "id": "s1",
+    "title": "Quota modes",
+    "url": "https://developer.spotify.com/documentation/web-api/concepts/quota-modes",
+    "publisher": "Spotify for Developers",
+    "kind": "official",
+    "checkedAt": "2026-10-27"
+   },
+   {
+    "id": "s2",
+    "title": "Apps",
+    "url": "https://developer.spotify.com/documentation/web-api/concepts/apps",
+    "publisher": "Spotify for Developers",
+    "kind": "official",
+    "checkedAt": "2026-10-27"
+   },
+   {
+    "id": "s3",
+    "title": "Redirect URIs",
+    "url": "https://developer.spotify.com/documentation/web-api/concepts/redirect_uri",
+    "publisher": "Spotify for Developers",
+    "kind": "official",
+    "checkedAt": "2026-10-27"
+   },
+   {
+    "id": "s4",
+    "title": "February 2026 Web API Dev Mode Changes - Migration Guide",
+    "url": "https://developer.spotify.com/documentation/web-api/tutorials/february-2026-migration-guide",
+    "publisher": "Spotify for Developers",
+    "kind": "official",
+    "checkedAt": "2026-10-27"
+   },
+   {
+    "id": "s5",
+    "title": "Incorrect rejection for Extension Quota from before the May 15th",
+    "url": "https://community.spotify.com/t5/Spotify-for-Developers/Incorrect-rejection-for-Extension-Quota-from-before-the-May-15th/td-p/7015385",
+    "publisher": "Spotify Community",
+    "kind": "community",
+    "checkedAt": null
+   },
+   {
+    "id": "s6",
+    "title": "Important: App review and quota extension waiting times",
+    "url": "https://community.spotify.com/t5/Spotify-for-Developers/Important-App-review-and-quota-extension-waiting-times/m-p/6535406/highlight/true",
+    "publisher": "Spotify Community",
+    "kind": "search",
+    "checkedAt": null
+   },
+   {
+    "id": "s7",
+    "title": "Update on Developer Access and Platform Security",
+    "url": "https://developer.spotify.com/blog/2026-02-06-update-on-developer-access-and-platform-security",
+    "publisher": "Spotify for Developers blog",
+    "kind": "search",
+    "checkedAt": null
+   }
+  ]
+ },
+ {
+  "slug": "hubspot",
+  "name": "HubSpot",
+  "domain": "hubspot.com",
+  "category": "CRM",
+  "summary": "You can create a HubSpot OAuth app and connect your own test accounts within an hour. An unlisted marketplace app, though, can only be installed in 25 accounts. Lifting that cap means getting listed on the HubSpot App Marketplace, which requires three active unaffiliated installs and a manual review by HubSpot's Ecosystem Quality team. HubSpot targets 10 business days for the initial review, and the full feedback cycle can run up to 60 days.",
+  "tier": "reviewed",
+  "tierReason": "Unlisted apps work immediately but are capped at 25 installs. Unlimited installs require a manually reviewed App Marketplace listing.",
+  "quality": "researched",
+  "updatedAt": "2026-10-27",
+  "composio": {
+   "status": "managed",
+   "note": "Composio has a managed HubSpot OAuth app, so you can prototype before registering your own. Before launch, register your own app so your name and domain appear on the install screen. Your app is then subject to the 25-install cap until it is listed.",
+   "toolkit": "HUBSPOT"
+  },
+  "totals": {
+   "effort": {
+    "min": 1,
+    "max": 5,
+    "unit": "days"
+   },
+   "wait": {
+    "min": 2,
+    "max": 12,
+    "unit": "weeks"
+   },
+   "firstConnection": "Today, in about 30 to 60 minutes"
+  },
+  "stages": [
+   {
+    "id": "build",
+    "name": "Developer test accounts",
+    "whoCanConnect": "Developer test accounts you create in your developer account, plus your own standard account.",
+    "userSees": "An install screen with an 'unverified app' banner. For unverified marketplace apps, the user may have to type 'I accept the risk' before connecting.",
+    "effort": {
+     "min": 30,
+     "max": 90,
+     "unit": "minutes"
+    },
+    "wait": {
+     "min": 0,
+     "max": 0,
+     "unit": "minutes"
+    },
+    "unlock": "Sign the Acceptable Use Policy under Distribution > Begin publishing so standard accounts can install the app.",
+    "evidence": {
+     "kind": "docs",
+     "sources": [
+      "s2",
+      "s4"
+     ],
+     "confidence": "high"
+    }
+   },
+   {
+    "id": "beta",
+    "name": "Unlisted, capped installs",
+    "whoCanConnect": "Up to 25 standard HubSpot accounts through your install URL (developer test accounts don't count toward the cap). A private-distribution app instead allows up to 10 allowlisted accounts.",
+    "userSees": "The install screen shows your verified domain and a banner saying HubSpot hasn't reviewed the app. Without a verified domain, the banner says the app is unverified.",
+    "effort": {
+     "min": 1,
+     "max": 3,
+     "unit": "hours"
+    },
+    "wait": {
+     "min": 0,
+     "max": 48,
+     "unit": "hours"
+    },
+    "unlock": "Get 3 active unaffiliated installs, then submit a Marketplace listing and pass review.",
+    "evidence": {
+     "kind": "docs",
+     "sources": [
+      "s3",
+      "s4"
+     ],
+     "confidence": "high"
+    }
+   },
+   {
+    "id": "launch",
+    "name": "Marketplace listing",
+    "whoCanConnect": "Any HubSpot account, with no install limit.",
+    "userSees": "A standard install screen with no warning banner.",
+    "effort": {
+     "min": 1,
+     "max": 4,
+     "unit": "days"
+    },
+    "wait": {
+     "min": 2,
+     "max": 12,
+     "unit": "weeks"
+    },
+    "unlock": null,
+    "evidence": {
+     "kind": "docs",
+     "sources": [
+      "s4",
+      "s5"
+     ],
+     "confidence": "medium"
+    }
+   }
+  ],
+  "requirements": [
+   {
+    "id": "developer-account",
+    "label": "HubSpot developer account",
+    "detail": "You need a free HubSpot developer account to create projects, apps and developer test accounts.",
+    "stage": "build",
+    "actor": "you",
+    "evidence": {
+     "kind": "docs",
+     "sources": [
+      "s2",
+      "s4"
+     ],
+     "confidence": "high"
+    }
+   },
+   {
+    "id": "hubspot-cli",
+    "label": "HubSpot CLI v7.6.0+",
+    "detail": "New apps on Developer Platform 2025.2 are created and uploaded as projects through the HubSpot CLI.",
+    "stage": "build",
+    "actor": "agent",
+    "evidence": {
+     "kind": "docs",
+     "sources": [
+      "s2"
+     ],
+     "confidence": "high"
+    }
+   },
+   {
+    "id": "https-redirect",
+    "label": "HTTPS redirect URI",
+    "detail": "You can use localhost while developing, but production redirect URLs must use https.",
+    "stage": "build",
+    "actor": "agent",
+    "evidence": {
+     "kind": "docs",
+     "sources": [
+      "s1"
+     ],
+     "confidence": "high"
+    }
+   },
+   {
+    "id": "verified-domain",
+    "label": "Verified domain",
+    "detail": "Add a DNS TXT record to verify one domain per developer account, which softens the install-screen warning. Propagation can take up to 48 hours.",
+    "stage": "beta",
+    "actor": "you",
+    "evidence": {
+     "kind": "docs",
+     "sources": [
+      "s4"
+     ],
+     "confidence": "high"
+    }
+   },
+   {
+    "id": "aup",
+    "label": "Signed Acceptable Use Policy",
+    "detail": "Until the AUP is signed, a marketplace-distribution app can only be installed in developer test accounts.",
+    "stage": "beta",
+    "actor": "you",
+    "evidence": {
+     "kind": "docs",
+     "sources": [
+      "s4"
+     ],
+     "confidence": "high"
+    }
+   },
+   {
+    "id": "three-installs",
+    "label": "3 active unaffiliated installs",
+    "detail": "Before you can submit a listing, the app needs at least three production accounts outside your organization showing app activity in the last 30 days.",
+    "stage": "launch",
+    "actor": "you",
+    "evidence": {
+     "kind": "docs",
+     "sources": [
+      "s5"
+     ],
+     "confidence": "high"
+    }
+   },
+   {
+    "id": "listing-assets",
+    "label": "Public setup docs, support, ToS, privacy policy",
+    "detail": "You need a public setup guide for the integration, a live support contact and resources, live Terms of Service and Privacy Policy URLs, pricing that matches your website, and an accurate Shared data table.",
+    "stage": "launch",
+    "actor": "you",
+    "evidence": {
+     "kind": "docs",
+     "sources": [
+      "s5"
+     ],
+     "confidence": "high"
+    }
+   },
+   {
+    "id": "partner-agreement",
+    "label": "Technology Partner Program Agreement",
+    "detail": "You must accept the HubSpot Technology Partner Program Agreement to be listed.",
+    "stage": "launch",
+    "actor": "you",
+    "evidence": {
+     "kind": "docs",
+     "sources": [
+      "s5"
+     ],
+     "confidence": "high"
+    }
+   }
+  ],
+  "steps": [
+   {
+    "id": "sign-up",
+    "title": "Create a HubSpot developer account",
+    "actor": "you",
+    "stage": "build",
+    "time": {
+     "min": 5,
+     "max": 15,
+     "unit": "minutes"
+    },
+    "detail": "Sign up for a free developer account, then authenticate the HubSpot CLI with `hs account auth`.",
+    "actions": [
+     "Sign up at developers.hubspot.com",
+     "Install HubSpot CLI v7.6.0 or later",
+     "Run `hs account auth` and complete the browser login"
+    ],
+    "agentNote": "An agent can install the CLI. Signing up and the login step need a person.",
+    "link": {
+     "label": "HubSpot developers",
+     "url": "https://developers.hubspot.com/"
+    },
+    "evidence": {
+     "kind": "docs",
+     "sources": [
+      "s2"
+     ],
+     "confidence": "high"
+    }
+   },
+   {
+    "id": "create-project",
+    "title": "Create an OAuth app project",
+    "actor": "agent",
+    "stage": "build",
+    "time": {
+     "min": 10,
+     "max": 20,
+     "unit": "minutes"
+    },
+    "detail": "Run `hs project create`, choose App, choose HubSpot Marketplace distribution (to serve many customers) and choose OAuth auth.",
+    "actions": [
+     "Run `hs project create` and choose App",
+     "Set distribution to marketplace (or private, for at most 10 allowlisted accounts)",
+     "Set auth to OAuth"
+    ],
+    "agentNote": "An agent can run this end to end once the CLI is authenticated.",
+    "gotcha": "Private distribution caps you at 10 accounts (100 for Solutions Partners). Choose marketplace if you plan to serve the public. HubSpot says you can switch from private to marketplace later.",
+    "link": {
+     "label": "Create an app",
+     "url": "https://developers.hubspot.com/docs/apps/developer-platform/build-apps/create-an-app"
+    },
+    "evidence": {
+     "kind": "docs",
+     "sources": [
+      "s2",
+      "s3"
+     ],
+     "confidence": "high"
+    }
+   },
+   {
+    "id": "configure-meta",
+    "title": "Set redirect URLs and scopes in app-hsmeta.json",
+    "actor": "agent",
+    "stage": "build",
+    "time": {
+     "min": 10,
+     "max": 30,
+     "unit": "minutes"
+    },
+    "detail": "Set `auth.type` to `oauth` and add your redirect URI to `auth.redirectUrls`. List the scopes your app needs in `requiredScopes`, `optionalScopes` or `conditionallyRequiredScopes`, and fill in the `support` fields.",
+    "actions": [
+     "Add your redirect URI to auth.redirectUrls",
+     "Add scopes such as crm.objects.contacts.read and crm.objects.contacts.write",
+     "Fill in support and permittedUrls",
+     "Run `hs project upload`"
+    ],
+    "agentNote": "An agent can edit the file and upload the project.",
+    "gotcha": "The installing user must have access to every required scope or the install fails. Put tier-dependent scopes (for example, Enterprise-only sensitive scopes) under optional scopes. Changing a uid after upload makes HubSpot treat it as a new component.",
+    "link": {
+     "label": "Scopes reference",
+     "url": "https://developers.hubspot.com/docs/apps/developer-platform/build-apps/authentication/scopes"
+    },
+    "evidence": {
+     "kind": "docs",
+     "sources": [
+      "s1",
+      "s2",
+      "s6"
+     ],
+     "confidence": "high"
+    }
+   },
+   {
+    "id": "copy-credentials",
+    "title": "Copy client ID and secret into your OAuth client",
+    "actor": "you",
+    "stage": "build",
+    "time": {
+     "min": 5,
+     "max": 10,
+     "unit": "minutes"
+    },
+    "detail": "Run `hs project open`, click your app under Project Components and open the Auth tab. Copy the client ID and client secret into your OAuth client. The endpoints are https://app.hubspot.com/oauth/authorize and https://api.hubapi.com/oauth/v3/token.",
+    "actions": [
+     "Open the project and click the app",
+     "On the Auth tab, copy the Client ID and Client secret",
+     "Configure your OAuth client with both, plus your redirect URI"
+    ],
+    "agentNote": "An agent can navigate to the page and copy the client ID. A person must handle the client secret.",
+    "gotcha": "Access tokens expire after 30 minutes, so your OAuth client must handle refresh tokens.",
+    "link": {
+     "label": "OAuth quickstart",
+     "url": "https://developers.hubspot.com/docs/apps/developer-platform/build-apps/authentication/oauth/oauth-quickstart-guide"
+    },
+    "evidence": {
+     "kind": "docs",
+     "sources": [
+      "s1",
+      "s2"
+     ],
+     "confidence": "high"
+    }
+   },
+   {
+    "id": "test-install",
+    "title": "Install in a developer test account",
+    "actor": "agent",
+    "stage": "build",
+    "time": {
+     "min": 10,
+     "max": 20,
+     "unit": "minutes"
+    },
+    "detail": "Create a test account under Development > Test accounts. Then, on the app's Distribution tab, click Add test install(s), install it in the test account, authorize the unverified app and confirm that your OAuth client receives tokens.",
+    "actions": [
+     "Create a developer test account",
+     "On the Distribution tab, click Add test install(s), then Install",
+     "Check the box to authorize the unverified app, then click Connect app"
+    ],
+    "agentNote": "An agent with a signed-in browser can do this and verify the token exchange.",
+    "gotcha": "Only Super Admins, or users with Marketplace access plus the matching permissions, can install apps.",
+    "link": {
+     "label": "Manage apps",
+     "url": "https://developers.hubspot.com/docs/apps/developer-platform/build-apps/manage-apps-in-hubspot"
+    },
+    "evidence": {
+     "kind": "docs",
+     "sources": [
+      "s2",
+      "s4"
+     ],
+     "confidence": "high"
+    }
+   },
+   {
+    "id": "verify-domain",
+    "title": "Verify your domain",
+    "actor": "you",
+    "stage": "beta",
+    "time": {
+     "min": 10,
+     "max": 20,
+     "unit": "minutes"
+    },
+    "detail": "Add the TXT record HubSpot gives you to your DNS, so the install screen shows your domain. Each developer account gets one verified domain.",
+    "actions": [
+     "Add the TXT record in DNS",
+     "Wait up to 48 hours for propagation"
+    ],
+    "agentNote": "An agent can copy the record value. DNS changes usually need a person.",
+    "link": {
+     "label": "Manage apps",
+     "url": "https://developers.hubspot.com/docs/apps/developer-platform/build-apps/manage-apps-in-hubspot"
+    },
+    "evidence": {
+     "kind": "docs",
+     "sources": [
+      "s4"
+     ],
+     "confidence": "high"
+    }
+   },
+   {
+    "id": "sign-aup",
+    "title": "Sign the Acceptable Use Policy",
+    "actor": "you",
+    "stage": "beta",
+    "time": {
+     "min": 5,
+     "max": 15,
+     "unit": "minutes"
+    },
+    "detail": "On the Distribution tab, click Begin publishing and sign the AUP. Standard accounts can then install the app from your install URL, up to 25 accounts.",
+    "actions": [
+     "On the Distribution tab, click Begin publishing",
+     "Review and sign the AUP",
+     "Share the sample install URL with early customers"
+    ],
+    "agentNote": "A person must sign the policy. An agent can then copy the install URL.",
+    "gotcha": "The 25-install cap counts standard accounts, and HubSpot says it doesn't grant exceptions.",
+    "link": {
+     "label": "Manage apps",
+     "url": "https://developers.hubspot.com/docs/apps/developer-platform/build-apps/manage-apps-in-hubspot"
+    },
+    "evidence": {
+     "kind": "docs",
+     "sources": [
+      "s3",
+      "s4",
+      "s7"
+     ],
+     "confidence": "high"
+    }
+   },
+   {
+    "id": "prepare-listing",
+    "title": "Prepare listing assets and earn 3 installs",
+    "actor": "you",
+    "stage": "launch",
+    "time": {
+     "min": 1,
+     "max": 3,
+     "unit": "days"
+    },
+    "detail": "Get three unaffiliated production accounts actively using the app. Then write public setup docs, a Shared data table, pricing, support links, ToS and a privacy policy, and remove any unused scopes.",
+    "actions": [
+     "Reach 3 active unaffiliated installs within the last 30 days",
+     "Publish a setup guide for the integration",
+     "Fill in every listing field",
+     "Allowlist the 'HubSpot Crawler' user agent"
+    ],
+    "agentNote": "An agent can draft the listing text and check that URLs are live. A person must own the content and the customer installs.",
+    "gotcha": "Unused scopes, any authorization method other than OAuth, and 'HubSpot' in the app name or logo are documented rejection reasons.",
+    "link": {
+     "label": "Listing requirements",
+     "url": "https://developers.hubspot.com/docs/apps/developer-platform/list-apps/listing-your-app/app-marketplace-listing-requirements"
+    },
+    "evidence": {
+     "kind": "docs",
+     "sources": [
+      "s5",
+      "s8"
+     ],
+     "confidence": "high"
+    }
+   },
+   {
+    "id": "submit-listing",
+    "title": "Submit the Marketplace listing for review",
+    "actor": "you",
+    "stage": "launch",
+    "time": {
+     "min": 1,
+     "max": 3,
+     "unit": "hours"
+    },
+    "detail": "Accept the Technology Partner Program Agreement and submit the listing. Reviewers now expect demo videos or guided walkthroughs instead of test logins.",
+    "actions": [
+     "Accept the Technology Partner Program Agreement",
+     "Submit the listing",
+     "Provide a demo video or walkthrough"
+    ],
+    "agentNote": "A person must submit and accept the agreements.",
+    "gotcha": "Only one app can be under review at a time. Any other app you submit meanwhile is automatically rejected.",
+    "link": {
+     "label": "Listing requirements",
+     "url": "https://developers.hubspot.com/docs/apps/developer-platform/list-apps/listing-your-app/app-marketplace-listing-requirements"
+    },
+    "evidence": {
+     "kind": "docs",
+     "sources": [
+      "s5",
+      "s8"
+     ],
+     "confidence": "medium"
+    }
+   },
+   {
+    "id": "review",
+    "title": "Wait for Ecosystem Quality review",
+    "actor": "provider",
+    "stage": "launch",
+    "time": {
+     "min": 2,
+     "max": 12,
+     "unit": "weeks"
+    },
+    "detail": "HubSpot targets an initial review within 10 business days, and the feedback cycle can take up to 60 days. Once the app is listed, the install cap is removed automatically.",
+    "evidence": {
+     "kind": "docs",
+     "sources": [
+      "s5"
+     ],
+     "confidence": "medium"
+    }
+   }
+  ],
+  "scopes": {
+   "intro": "HubSpot doesn't require extra review for individual scopes. Instead, some scopes are limited by the customer's HubSpot tier, and the listing review rejects scopes you don't use. The `oauth` scope is added automatically.",
+   "tiers": [
+    {
+     "scope": "crm.objects.contacts.read / .write (and companies, deals, tickets)",
+     "grants": "Read and write standard CRM records",
+     "level": "basic",
+     "consequence": "Nothing extra. They are covered by the normal listing review."
+    },
+    {
+     "scope": "crm.objects.*.sensitive.* / *.highly_sensitive.*",
+     "grants": "Sensitive data properties",
+     "level": "sensitive",
+     "consequence": "Only Enterprise accounts can grant these, except the ticket variants. App cards must not use them. Mark them optional or conditional."
+    }
+   ]
+  },
+  "blockers": [
+   {
+    "symptom": "Installs fail after 25 accounts",
+    "cause": "Unlisted marketplace apps on Developer Platform 2025.2 are capped at 25 installs.",
+    "fix": "Get listed on the App Marketplace. HubSpot doesn't grant exceptions.",
+    "evidence": {
+     "kind": "docs",
+     "sources": [
+      "s3",
+      "s4",
+      "s7"
+     ],
+     "confidence": "high"
+    }
+   },
+   {
+    "symptom": "Migrated legacy app suddenly hits an install limit",
+    "cause": "Legacy public apps with more than 25 installs that migrate to 2025.2 have the cap enforced automatically.",
+    "fix": "Get the app listed before migrating, or plan the migration around the cap.",
+    "evidence": {
+     "kind": "docs",
+     "sources": [
+      "s3"
+     ],
+     "confidence": "high"
+    }
+   },
+   {
+    "symptom": "Install fails for a user",
+    "cause": "The user isn't a Super Admin or lacks access to a required scope, for example an Enterprise-only scope.",
+    "fix": "Move tier-dependent scopes to optional scopes, and ask a Super Admin to install.",
+    "evidence": {
+     "kind": "docs",
+     "sources": [
+      "s1",
+      "s4"
+     ],
+     "confidence": "high"
+    }
+   },
+   {
+    "symptom": "Can't submit a listing",
+    "cause": "Submission needs 3 active unaffiliated installs, but the app has fewer.",
+    "fix": "Onboard early customers through the unlisted install URL first.",
+    "evidence": {
+     "kind": "docs",
+     "sources": [
+      "s5",
+      "s8"
+     ],
+     "confidence": "high"
+    }
+   }
+  ],
+  "unknowns": [
+   {
+    "question": "How long Marketplace reviews actually take in practice",
+    "why": "The community forum returned 403, and no first-hand timelines were found. Only HubSpot's target times are known.",
+    "resolve": "Search community.hubspot.com for recent listing threads, or ask your HubSpot partner manager."
+   },
+   {
+    "question": "Whether new legacy-style public apps (not project-based) can still be created, and whether they avoid the cap",
+    "why": "The docs reviewed only cover Developer Platform 2025.2.",
+    "resolve": "Check the developer account's Apps section and the HubSpot developer changelog."
+   }
+  ],
+  "handoff": {
+   "agentCan": [
+    "Install the HubSpot CLI and scaffold the project",
+    "Edit app-hsmeta.json with your redirect URI and scopes, and upload it",
+    "Copy the client ID and install URL",
+    "Create test accounts and run test installs",
+    "Draft listing content and check that listing URLs are live"
+   ],
+   "youMust": [
+    "Sign up for a developer account and authenticate the CLI",
+    "Handle the client secret",
+    "Add the DNS TXT record for domain verification",
+    "Sign the AUP and the Technology Partner Program Agreement",
+    "Recruit 3 active unaffiliated customer installs",
+    "Submit the listing and the demo video, and respond to reviewer feedback"
+   ]
+  },
+  "sources": [
+   {
+    "id": "s1",
+    "title": "OAuth quickstart guide",
+    "url": "https://developers.hubspot.com/docs/apps/developer-platform/build-apps/authentication/oauth/oauth-quickstart-guide",
+    "publisher": "HubSpot developer docs",
+    "kind": "official",
+    "checkedAt": "2026-10-27"
+   },
+   {
+    "id": "s2",
+    "title": "Create an app",
+    "url": "https://developers.hubspot.com/docs/apps/developer-platform/build-apps/create-an-app",
+    "publisher": "HubSpot developer docs",
+    "kind": "official",
+    "checkedAt": "2026-10-27"
+   },
+   {
+    "id": "s3",
+    "title": "New marketplace distribution app install limits",
+    "url": "https://developers.hubspot.com/changelog/new-marketplace-distribution-app-install-limits",
+    "publisher": "HubSpot developer changelog",
+    "kind": "official",
+    "checkedAt": "2026-10-27"
+   },
+   {
+    "id": "s4",
+    "title": "Manage apps in HubSpot",
+    "url": "https://developers.hubspot.com/docs/apps/developer-platform/build-apps/manage-apps-in-hubspot",
+    "publisher": "HubSpot developer docs",
+    "kind": "official",
+    "checkedAt": "2026-10-27"
+   },
+   {
+    "id": "s5",
+    "title": "App Marketplace listing requirements",
+    "url": "https://developers.hubspot.com/docs/apps/developer-platform/list-apps/listing-your-app/app-marketplace-listing-requirements",
+    "publisher": "HubSpot developer docs",
+    "kind": "official",
+    "checkedAt": "2026-10-27"
+   },
+   {
+    "id": "s6",
+    "title": "Scopes",
+    "url": "https://developers.hubspot.com/docs/apps/developer-platform/build-apps/authentication/scopes",
+    "publisher": "HubSpot developer docs",
+    "kind": "official",
+    "checkedAt": "2026-10-27"
+   },
+   {
+    "id": "s7",
+    "title": "App installs limit",
+    "url": "https://community.hubspot.com/t/app-installs-limit/152805",
+    "publisher": "HubSpot Community",
+    "kind": "search",
+    "checkedAt": "2026-10-27"
+   },
+   {
+    "id": "s8",
+    "title": "Listing a SaaS Product on the HubSpot App Marketplace: What It Actually Takes",
+    "url": "https://www.spotdev.co.uk/blog/how-to-list-a-saas-product-on-hubspot-app-marketplace",
+    "publisher": "SpotDev",
+    "kind": "community",
+    "checkedAt": "2026-10-27"
+   },
+   {
+    "id": "s9",
+    "title": "Managed auth toolkits",
+    "url": "https://docs.composio.dev/toolkits/managed-auth.md",
+    "publisher": "Composio docs",
+    "kind": "composio",
+    "checkedAt": "2026-10-27"
+   }
+  ]
+ }
+]

@@ -1,0 +1,11 @@
+{
+  "name": "oauth-guide",
+  "version": "0.1.0",
+  "description": "Print an OAuth app setup guide, or research one live",
+  "keywords": ["oauth", "oauth2", "cli", "agent", "setup guide"],
+  "homepage": "https://oauth-guide.akshatsethi.com",
+  "type": "module",
+  "bin": { "oauth-guide": "oauth-guide.mjs" },
+  "files": ["oauth-guide.mjs"],
+  "engines": { "node": ">=18" }
+}

@@ -1,0 +1,43 @@
+[
+  {
+    "slug": "apple-music",
+    "name": "Apple Music",
+    "domain": null,
+    "reason": "The Apple Music API (api.music.apple.com, from Apple Inc.) uses two tokens and no OAuth flow. Your app signs a JWT developer token with your MusicKit private key from the Apple Developer Program. The user's Music-User-Token comes from Apple's MusicKit SDKs: MusicKit for Swift on Apple platforms, MusicKit on the Web, or MusicKit for Android. There is no OAuth authorize endpoint, redirect URI, authorization code or refresh token. Sign in with Apple is OAuth 2.0, but it only supports the 'name' and 'email' scopes, so it can't grant Apple Music access. Users connect by approving the MusicKit prompt inside your app or web page. Your app then stores the Music-User-Token and sends it in the Music-User-Token header, next to the developer token.",
+    "sources": [
+      {
+        "title": "User Authentication for MusicKit | Apple Developer Documentation",
+        "url": "https://developer.apple.com/documentation/applemusicapi/user-authentication-for-musickit"
+      },
+      {
+        "title": "Generating Developer Tokens | Apple Developer Documentation",
+        "url": "https://developer.apple.com/documentation/applemusicapi/generating-developer-tokens"
+      },
+      {
+        "title": "scope | Sign in with Apple JS | Apple Developer Documentation",
+        "url": "https://developer.apple.com/documentation/signinwithapplejs/clientconfigi/scope.md"
+      }
+    ],
+    "checkedAt": "2026-10-28",
+    "researchedAt": "2026-10-28T05:44:04.894Z"
+  },
+  {
+    "slug": "instagram-basic-display",
+    "name": "Instagram Basic Display",
+    "domain": null,
+    "reason": "Meta shut down the Instagram Basic Display API on December 4, 2024. Since then every request to it fails, and you can no longer register an app for its OAuth flow. Meta points business and creator accounts to the Instagram API with Instagram Login or with Facebook Login, and offers no replacement for personal accounts, so those users would first have to switch to a professional account.",
+    "alternative": "Instagram API with Instagram Login",
+    "sources": [
+      {
+        "title": "Update on Instagram Basic Display API (Meta for Developers blog, Sept 4, 2024)",
+        "url": "https://developers.facebook.com/blog/post/2024/09/04/update-on-instagram-basic-display-api"
+      },
+      {
+        "title": "Instagram Platform docs (current recommended setup)",
+        "url": "https://developers.facebook.com/docs/instagram-basic-display-api"
+      }
+    ],
+    "checkedAt": "2026-10-28",
+    "researchedAt": "2026-10-28T05:41:52.969Z"
+  }
+]

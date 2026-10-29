@@ -1,0 +1,107 @@
+/* Hallmark · genre: modern-minimal · macrostructure: Index-First · theme: Cobalt · enrichment: none · nav: N13 · footer: Ft2
+ * tone: technical · anchor hue: 256 (cobalt)
+ * pre-emit critique: P4 H4 E4 S5 R4 V4
+ *
+ * Design tokens. Declared as a Tailwind v4 @theme so every token is both a CSS
+ * custom property on :root and a utility (bg-paper, text-ink, font-display…).
+ * `static` keeps unused tokens emitted so hand-written CSS can reference them.
+ */
+@theme static {
+  --color-*: initial;
+
+  /* Surfaces: cool engineered near-white, never #fff */
+  --color-paper: oklch(98.5% 0.004 250);
+  --color-paper-2: oklch(96.6% 0.006 252);
+  --color-paper-3: oklch(93.8% 0.008 254);
+  --color-rule: oklch(90.5% 0.008 255);
+  --color-rule-2: oklch(83% 0.012 256);
+
+  /* Ink: cool charcoal, never #000 */
+  --color-muted: oklch(50% 0.018 257);
+  --color-ink-2: oklch(34% 0.018 257);
+  --color-ink: oklch(24% 0.02 258);
+
+  /* The one signal */
+  --color-accent: oklch(55% 0.2 256);
+  --color-accent-strong: oklch(48% 0.2 258);
+  --color-accent-ink: oklch(98.5% 0.004 250);
+  --color-accent-wash: oklch(95.5% 0.025 256);
+  --color-focus: oklch(55% 0.2 256);
+
+  /* The one dark beat per page */
+  --color-graphite: oklch(21% 0.016 260);
+  --color-graphite-2: oklch(25.5% 0.016 260);
+  --color-graphite-rule: oklch(34% 0.016 260);
+  --color-graphite-ink: oklch(93% 0.008 255);
+  --color-graphite-muted: oklch(72% 0.014 255);
+  --color-graphite-accent: oklch(74% 0.14 256);
+
+  /* Difficulty tiers. Data encoding only: always paired with a label and a meter */
+  --color-tier-0: oklch(70% 0.012 257);
+  --color-tier-1: oklch(58% 0.13 155);
+  --color-tier-2: oklch(60% 0.1 205);
+  --color-tier-3: oklch(70% 0.14 70);
+  --color-tier-4: oklch(56% 0.18 28);
+
+  /* Status text (meets 4.5:1 on paper) */
+  --color-ok: oklch(46% 0.11 155);
+  --color-warn: oklch(50% 0.11 60);
+  --color-danger: oklch(50% 0.17 28);
+  --color-danger-wash: oklch(96% 0.02 28);
+  --color-danger-on-dark: oklch(78% 0.12 28);
+
+  /* Type: grotesk display, humanist body, mono for machine readouts */
+  --font-*: initial;
+  --font-display: var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif;
+  --font-body: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, "SFMono-Regular", monospace;
+
+  --text-*: initial;
+  --text-xs: 0.75rem;
+  --text-xs--line-height: 1.4;
+  --text-sm: 0.875rem;
+  --text-sm--line-height: 1.5;
+  --text-base: 1rem;
+  --text-base--line-height: 1.6;
+  --text-lg: 1.25rem;
+  --text-lg--line-height: 1.45;
+  --text-xl: 1.5625rem;
+  --text-xl--line-height: 1.25;
+  --text-2xl: 1.9531rem;
+  --text-2xl--line-height: 1.15;
+  --text-display: clamp(2.25rem, 2.5vw + 1.5rem, 3.5rem);
+  --text-display--line-height: 1.05;
+
+  /* Tight technical radii: drawn with a ruler */
+  --radius-*: initial;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 10px;
+  --radius-full: 999px;
+
+  --ease-*: initial;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in: cubic-bezier(0.7, 0, 0.84, 0);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+
+  --shadow-*: initial;
+  --shadow-whisper: 0 1px 2px oklch(24% 0.02 258 / 0.06);
+  --shadow-panel: 0 24px 64px -24px oklch(24% 0.02 258 / 0.35);
+}
+
+:root {
+  --dur-micro: 120ms;
+  --dur-short: 220ms;
+  --dur-long: 420ms;
+
+  --z-base: 1;
+  --z-raised: 10;
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-modal: 400;
+  --z-toast: 500;
+
+  --measure: 65ch;
+  --page-max: 76rem;
+}

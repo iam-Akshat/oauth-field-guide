@@ -1,0 +1,32 @@
+# One machine: the database is SQLite on its volume, and research jobs run in
+# the server process, so it stays on (an idle stop would kill a running job).
+app = "oauth-field-guide"
+primary_region = "sin"
+
+[env]
+  DATABASE_FILE = "/data/oauth-guide.db"
+  RUNS_FILE = "/data/runs.jsonl"
+  RESEARCH_CONCURRENCY = "2"
+  RESEARCH_DAILY_LIMIT = "50"
+
+[mounts]
+  source = "oauth_guide_data"
+  destination = "/data"
+
+[http_service]
+  internal_port = 3000
+  force_https = true
+  auto_stop_machines = "off"
+  auto_start_machines = true
+  min_machines_running = 1
+
+  [[http_service.checks]]
+    grace_period = "30s"
+    interval = "30s"
+    timeout = "5s"
+    method = "GET"
+    path = "/api/guides"
+
+[[vm]]
+  size = "shared-cpu-2x"
+  memory = "2gb"

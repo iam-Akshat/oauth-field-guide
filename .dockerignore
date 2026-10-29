@@ -1,0 +1,19 @@
+# Never ship credentials or local state.
+.env*
+.git
+.next
+node_modules
+.data
+data/*.db*
+data/reports.jsonl
+*.tsbuildinfo
+next-env.d.ts
+
+# Not part of the server.
+.hallmark
+cli
+cloudflare
+evals
+Dockerfile
+fly.toml
+README.md

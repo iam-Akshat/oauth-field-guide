@@ -1,0 +1,12 @@
+{
+  "name": "oauth-field-guide",
+  "main": "worker.js",
+  "compatibility_date": "2026-10-01",
+  "workers_dev": true,
+  "routes": [{ "pattern": "oauth-guide.akshatsethi.com", "custom_domain": true }],
+  "vars": {
+    // The Fly.io app this Worker fronts.
+    "ORIGIN": "https://oauth-field-guide.fly.dev"
+  },
+  "observability": { "enabled": true }
+}

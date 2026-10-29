@@ -1,0 +1,1748 @@
+[
+ {
+  "slug": "spotify",
+  "name": "Spotify",
+  "domain": "spotify.com",
+  "category": "Music streaming",
+  "summary": "You can register a Spotify app and connect your own account in about 15 minutes, but Development Mode allows only 5 allowlisted users per client ID. To let the public connect you need Extended Quota Mode. Spotify grants it only to registered organizations with a launched service and at least 250k monthly active users, after a review that can take up to six weeks.",
+  "tier": "gated",
+  "tierReason": "Going past 5 hand-picked users needs Extended Quota Mode, which is open only to legally registered businesses with a launched service, 250k+ MAU and an approved Partner Application.",
+  "quality": "researched",
+  "updatedAt": "2026-10-27",
+  "composio": {
+   "status": "byo",
+   "note": "Composio has no managed Spotify app, so you register your own and enter its client ID and secret in Composio. The 5-user Development Mode cap applies to that app too.",
+   "toolkit": "spotify"
+  },
+  "totals": {
+   "effort": {
+    "min": 2,
+    "max": 8,
+    "unit": "hours"
+   },
+   "wait": {
+    "min": 0,
+    "max": 6,
+    "unit": "weeks"
+   },
+   "firstConnection": "Today, in about 15 to 30 minutes, if your Spotify account has Premium"
+  },
+  "stages": [
+   {
+    "id": "build",
+    "name": "Your account",
+    "whoCanConnect": "You, the app owner, on a Spotify Premium account",
+    "userSees": "Spotify's standard consent screen with your app name, description and requested scopes",
+    "effort": {
+     "min": 15,
+     "max": 30,
+     "unit": "minutes"
+    },
+    "wait": {
+     "min": 0,
+     "max": 0,
+     "unit": "minutes"
+    },
+    "unlock": "Add up to 5 users to the app's allowlist",
+    "evidence": {
+     "kind": "docs",
+     "sources": [
+      "s1",
+      "s2",
+      "s4"
+     ],
+     "confidence": "high"
+    }
+   },
+   {
+    "id": "beta",
+    "name": "Development Mode allowlist",
+    "whoCanConnect": "Up to 5 Spotify users per client ID, each added to your allowlist",
+    "userSees": "The same consent screen. Users not on the allowlist can't use the app.",
+    "effort": {
+     "min": 5,
+     "max": 15,
+     "unit": "minutes"
+    },
+    "wait": {
+     "min": 0,
+     "max": 0,
+     "unit": "minutes"
+    },
+    "unlock": "Get your Partner Application approved, then get a Quota Extension Request granted for the app",
+    "evidence": {
+     "kind": "docs",
+     "sources": [
+      "s1",
+      "s4"
+     ],
+     "confidence": "high"
+    }
+   },
+   {
+    "id": "launch",
+    "name": "Extended Quota Mode",
+    "whoCanConnect": "Any Spotify user, with no allowlist",
+    "userSees": "The standard consent screen",
+    "effort": {
+     "min": 2,
+     "max": 8,
+     "unit": "hours"
+    },
+    "wait": {
+     "min": 0,
+     "max": 6,
+     "unit": "weeks"
+    },
+    "unlock": null,
+    "evidence": {
+     "kind": "docs",
+     "sources": [
+      "s1"
+     ],
+     "confidence": "high"
+    }
+   }
+  ],
+  "requirements": [
+   {
+    "id": "spotify-premium",
+    "label": "Spotify Premium account for the app owner",
+    "detail": "Apps in Development Mode only work if the owner's account has Premium.",
+    "stage": "build",
+    "actor": "you",
+    "evidence": {
+     "kind": "docs",
+     "sources": [
+      "s1",
+      "s4"
+     ],
+     "confidence": "high"
+    }
+   },
+   {
+    "id": "https-redirect",
+    "label": "HTTPS redirect URI",
+    "detail": "Your redirect URI must use HTTPS. The only exception is loopback IP literals such as http://127.0.0.1:PORT. 'localhost' is not allowed.",
+    "stage": "build",
+    "actor": "agent",
+    "evidence": {
+     "kind": "docs",
+     "sources": [
+      "s3"
+     ],
+     "confidence": "high"
+    }
+   },
+   {
+    "id": "registered-org",
+    "label": "Legally registered business or organization",
+    "detail": "Spotify accepts Extended Quota applications only from organizations, not individuals, and you must apply from a company email.",
+    "stage": "launch",
+    "actor": "you",
+    "evidence": {
+     "kind": "docs",
+     "sources": [
+      "s1"
+     ],
+     "confidence": "high"
+    }
+   },
+   {
+    "id": "mau-250k",
+    "label": "Launched service with at least 250k MAU",
+    "detail": "Your service must be live and active, with at least 250k monthly active users, available in key Spotify markets and commercially viable.",
+    "stage": "launch",
+    "actor": "you",
+    "evidence": {
+     "kind": "docs",
+     "sources": [
+      "s1"
+     ],
+     "confidence": "high"
+    }
+   }
+  ],
+  "steps": [
+   {
+    "id": "create-app",
+    "title": "Create an app in the Developer Dashboard",
+    "actor": "you",
+    "stage": "build",
+    "time": {
+     "min": 5,
+     "max": 10,
+     "unit": "minutes"
+    },
+    "detail": "Sign in at developer.spotify.com with your Premium account, open the Dashboard and click Create app. Enter an app name and description, which users see on the consent screen, then accept the Developer Terms.",
+    "actions": [
+     "Sign in to developer.spotify.com/dashboard",
+     "Click Create app",
+     "Fill in App name and App description",
+     "Accept the Developer Terms of Service"
+    ],
+    "agentNote": "Once you're signed in, an agent can fill the form. You accept the terms.",
+    "gotcha": "Since February 2026 you get only one Development Mode client ID per developer, so don't spend it on a throwaway test app.",
+    "link": {
+     "label": "Spotify Developer Dashboard",
+     "url": "https://developer.spotify.com/dashboard"
+    },
+    "image": {
+     "url": "https://developer-assets.spotifycdn.com/images/documentation/web-api/createappdialog.png",
+     "alt": "Create App Dialog",
+     "source": "s2"
+    },
+    "evidence": {
+     "kind": "docs",
+     "sources": [
+      "s2",
+      "s4"
+     ],
+     "confidence": "high"
+    }
+   },
+   {
+    "id": "set-redirect",
+    "title": "Add your redirect URI and website",
+    "actor": "agent",
+    "stage": "build",
+    "time": {
+     "min": 5,
+     "max": 10,
+     "unit": "minutes"
+    },
+    "detail": "In the app settings, add your OAuth client's redirect URI exactly as your client sends it, plus a website URL, then save. Matching is exact, except that loopback IPs can use dynamic ports.",
+    "actions": [
+     "Open the app and click Edit Settings",
+     "Add your redirect URI under Redirect URIs",
+     "Fill in Website",
+     "Click Save"
+    ],
+    "agentNote": "An agent can copy the redirect URI from your OAuth client and save it here.",
+    "gotcha": "'localhost' is rejected. Use 127.0.0.1 or [::1] for local testing and HTTPS everywhere else.",
+    "link": {
+     "label": "Spotify Developer Dashboard",
+     "url": "https://developer.spotify.com/dashboard"
+    },
+    "image": {
+     "url": "https://developer-assets.spotifycdn.com/images/documentation/web-api/dashboardeditsettings.png",
+     "alt": "Dashboard Settings",
+     "source": "s2"
+    },
+    "evidence": {
+     "kind": "docs",
+     "sources": [
+      "s2",
+      "s3"
+     ],
+     "confidence": "high"
+    }
+   },
+   {
+    "id": "copy-credentials",
+    "title": "Put the client ID and secret in your OAuth client",
+    "actor": "you",
+    "stage": "build",
+    "time": {
+     "min": 5,
+     "max": 10,
+     "unit": "minutes"
+    },
+    "detail": "Copy the Client ID and Client Secret from the app overview page into your OAuth client. Keep the secret private, and rotate it if it leaks.",
+    "actions": [
+     "Copy Client ID",
+     "Reveal and copy Client Secret",
+     "Store both in your OAuth client's configuration"
+    ],
+    "agentNote": "An agent can enter the Client ID. You handle the Client Secret.",
+    "link": {
+     "label": "Spotify Developer Dashboard",
+     "url": "https://developer.spotify.com/dashboard"
+    },
+    "image": {
+     "url": "https://developer-assets.spotifycdn.com/images/documentation/web-api/app_overview.png",
+     "alt": "App Overview",
+     "source": "s2"
+    },
+    "evidence": {
+     "kind": "docs",
+     "sources": [
+      "s2"
+     ],
+     "confidence": "high"
+    }
+   },
+   {
+    "id": "test-connection",
+    "title": "Connect your own Spotify account",
+    "actor": "agent",
+    "stage": "build",
+    "time": {
+     "min": 5,
+     "max": 10,
+     "unit": "minutes"
+    },
+    "detail": "Run the authorization flow with the scopes you need and confirm you can call the API. Since February 2026, new Development Mode client IDs can reach only a reduced set of endpoints.",
+    "agentNote": "An agent can start the flow. You approve the consent screen while signed in.",
+    "gotcha": "A 429 with QUOTA_EXCEEDED means you've hit the Development Mode rate quota.",
+    "evidence": {
+     "kind": "docs",
+     "sources": [
+      "s1",
+      "s4"
+     ],
+     "confidence": "medium"
+    }
+   },
+   {
+    "id": "allowlist-users",
+    "title": "Add up to 5 test users to the allowlist",
+    "actor": "agent",
+    "stage": "beta",
+    "time": {
+     "min": 5,
+     "max": 15,
+     "unit": "minutes"
+    },
+    "detail": "In the app's user management settings, add each tester's name and Spotify account email. Each Development Mode client ID allows at most 5 users.",
+    "actions": [
+     "Open the app settings",
+     "Go to User Management",
+     "Add each tester's name and email"
+    ],
+    "agentNote": "An agent can enter the users if you supply their emails.",
+    "gotcha": "The email must match the tester's Spotify account. If it doesn't, they get errors after authorizing.",
+    "link": {
+     "label": "Spotify Developer Dashboard",
+     "url": "https://developer.spotify.com/dashboard"
+    },
+    "evidence": {
+     "kind": "docs",
+     "sources": [
+      "s1"
+     ],
+     "confidence": "medium"
+    }
+   },
+   {
+    "id": "partner-application",
+    "title": "Submit the Spotify Partner Application",
+    "actor": "you",
+    "stage": "launch",
+    "time": {
+     "min": 1,
+     "max": 3,
+     "unit": "hours"
+    },
+    "detail": "From a company email, submit the Partner Application linked from the quota modes page. You need a registered organization, a launched service and 250k+ MAU.",
+    "gotcha": "Individuals and pre-launch products are not eligible.",
+    "link": {
+     "label": "Quota modes",
+     "url": "https://developer.spotify.com/documentation/web-api/concepts/quota-modes"
+    },
+    "evidence": {
+     "kind": "docs",
+     "sources": [
+      "s1"
+     ],
+     "confidence": "high"
+    }
+   },
+   {
+    "id": "quota-extension",
+    "title": "Submit the Quota Extension Request",
+    "actor": "you",
+    "stage": "launch",
+    "time": {
+     "min": 1,
+     "max": 3,
+     "unit": "hours"
+    },
+    "detail": "After partner approval, open the app's Settings, go to the Quota extension Request tab, complete the four-step questionnaire and submit it.",
+    "actions": [
+     "App > Settings > Quota extension Request",
+     "Complete the four-step questionnaire",
+     "Submit"
+    ],
+    "agentNote": "An agent can draft your answers. You review and submit them.",
+    "gotcha": "Follow the Developer Policy and branding guidelines. Rejections often cite these without much detail.",
+    "link": {
+     "label": "Spotify Developer Dashboard",
+     "url": "https://developer.spotify.com/dashboard"
+    },
+    "evidence": {
+     "kind": "docs",
+     "sources": [
+      "s1",
+      "s6"
+     ],
+     "confidence": "high"
+    }
+   },
+   {
+    "id": "spotify-review",
+    "title": "Wait for Spotify's review",
+    "actor": "provider",
+    "stage": "launch",
+    "time": {
+     "min": 0,
+     "max": 6,
+     "unit": "weeks"
+    },
+    "detail": "Spotify's review team checks the app against the Developer Policy. Spotify says this can take up to six weeks.",
+    "evidence": {
+     "kind": "docs",
+     "sources": [
+      "s1"
+     ],
+     "confidence": "high"
+    }
+   }
+  ],
+  "blockers": [
+   {
+    "symptom": "Users get an error or can't use the app after authorizing",
+    "cause": "They aren't on the Development Mode allowlist, or the app is already at its 5-user limit.",
+    "fix": "Add them in User Management, or apply for Extended Quota Mode.",
+    "evidence": {
+     "kind": "docs",
+     "sources": [
+      "s1"
+     ],
+     "confidence": "high"
+    }
+   },
+   {
+    "symptom": "The app stops working in Development Mode",
+    "cause": "The owner's account no longer has Premium, which has been required since February/March 2026.",
+    "fix": "Keep Premium active on the owner account.",
+    "evidence": {
+     "kind": "docs",
+     "sources": [
+      "s4"
+     ],
+     "confidence": "high"
+    }
+   },
+   {
+    "symptom": "Redirect URI rejected when you save it or during authorization",
+    "cause": "localhost, http on a non-loopback host, or a URI that doesn't match exactly.",
+    "fix": "Use HTTPS, or 127.0.0.1/[::1] for local work, and match the registered URI exactly.",
+    "evidence": {
+     "kind": "docs",
+     "sources": [
+      "s3"
+     ],
+     "confidence": "high"
+    }
+   },
+   {
+    "symptom": "Quota extension rejected with a vague reason",
+    "cause": "Not meeting the post-May 2025 criteria, or policy and branding problems.",
+    "fix": "Check that you meet the eligibility bar, review the Developer Policy, and follow up with the review team through the community forum.",
+    "evidence": {
+     "kind": "community",
+     "sources": [
+      "s5",
+      "s6"
+     ],
+     "confidence": "medium"
+    }
+   }
+  ],
+  "unknowns": [
+   {
+    "question": "Which endpoints can new Development Mode client IDs call after February 2026?",
+    "why": "The blog points to a changes reference page that wasn't fetched.",
+    "resolve": "Read the February 2026 changes reference in Spotify's Web API docs."
+   },
+   {
+    "question": "Can you create a new Development Mode client ID after deleting your only one?",
+    "why": "The docs don't say.",
+    "resolve": "Ask on the Spotify for Developers community forum."
+   },
+   {
+    "question": "How long does the Partner Application take before you can request a quota extension?",
+    "why": "Spotify gives a timeline only for the quota extension review, up to six weeks.",
+    "resolve": "Ask Spotify partner contacts after you submit."
+   }
+  ],
+  "handoff": {
+   "agentCan": [
+    "Fill in the create-app form after you sign in",
+    "Add your redirect URI and website in Settings",
+    "Enter the client ID in your OAuth client",
+    "Add allowlisted users",
+    "Test the authorization flow",
+    "Draft answers for the quota extension questionnaire"
+   ],
+   "youMust": [
+    "Sign in with a Spotify Premium account",
+    "Accept the Developer Terms",
+    "Handle the client secret",
+    "Submit the Partner Application from a company email",
+    "Submit the quota extension request"
+   ]
+  },
+  "sources": [
+   {
+    "id": "s1",
+    "title": "Quota modes",
+    "url": "https://developer.spotify.com/documentation/web-api/concepts/quota-modes",
+    "publisher": "Spotify for Developers",
+    "kind": "official",
+    "checkedAt": "2026-10-27"
+   },
+   {
+    "id": "s2",
+    "title": "Apps",
+    "url": "https://developer.spotify.com/documentation/web-api/concepts/apps",
+    "publisher": "Spotify for Developers",
+    "kind": "official",
+    "checkedAt": "2026-10-27"
+   },
+   {
+    "id": "s3",
+    "title": "Redirect URIs",
+    "url": "https://developer.spotify.com/documentation/web-api/concepts/redirect_uri",
+    "publisher": "Spotify for Developers",
+    "kind": "official",
+    "checkedAt": "2026-10-27"
+   },
+   {
+    "id": "s4",
+    "title": "Update on Developer Access and Platform Security",
+    "url": "https://developer.spotify.com/blog/2026-02-06-update-on-developer-access-and-platform-security",
+    "publisher": "Spotify for Developers blog",
+    "kind": "official",
+    "checkedAt": "2026-10-27"
+   },
+   {
+    "id": "s5",
+    "title": "Updating the criteria for Web API extended access",
+    "url": "https://developer.spotify.com/blog/2025-04-15-updating-the-criteria-for-web-api-extended-access",
+    "publisher": "Spotify for Developers blog",
+    "kind": "official",
+    "checkedAt": "2026-10-27"
+   },
+   {
+    "id": "s6",
+    "title": "Quota extension rejection reason",
+    "url": "https://community.spotify.com/t5/Spotify-for-Developers/Quota-extension-rejection-reason/td-p/5257471",
+    "publisher": "Spotify Community",
+    "kind": "search",
+    "checkedAt": null
+   }
+  ]
+ },
+ {
+  "slug": "hubspot",
+  "name": "HubSpot",
+  "domain": "hubspot.com",
+  "category": "CRM",
+  "summary": "You can create a HubSpot OAuth app with the CLI in about an hour, and real customer accounts can install it right away, up to 25 of them. To go past 25 installs you need an approved HubSpot App Marketplace listing. That takes at least 3 active installs from accounts outside your company, a public setup guide, live policy links and a manual review, with the first response due within 10 business days.",
+  "tier": "capped",
+  "tierReason": "On developer platform 2025.2 and later, marketplace-distribution OAuth apps work for real customers right away but stop at 25 installs until the Marketplace listing is approved.",
+  "quality": "researched",
+  "updatedAt": "2026-10-27",
+  "composio": {
+   "status": "managed",
+   "note": "Composio has a managed HubSpot OAuth app, so you can prototype before registering your own. Register your own before launch so your app name shows on the install screen and your installs count toward your own Marketplace listing.",
+   "toolkit": "HUBSPOT"
+  },
+  "totals": {
+   "effort": {
+    "min": 1,
+    "max": 3,
+    "unit": "days"
+   },
+   "wait": {
+    "min": 2,
+    "max": 10,
+    "unit": "weeks"
+   },
+   "firstConnection": "Today, in about 1 to 2 hours"
+  },
+  "stages": [
+   {
+    "id": "build",
+    "name": "Developer test accounts",
+    "whoCanConnect": "Developer test accounts you create inside your HubSpot developer account. They don't count toward the install cap.",
+    "userSees": "HubSpot's install screen, with a checkbox to authorize an unverified app.",
+    "effort": {
+     "min": 1,
+     "max": 2,
+     "unit": "hours"
+    },
+    "wait": {
+     "min": 0,
+     "max": 0,
+     "unit": "minutes"
+    },
+    "unlock": "Upload the project with distribution set to marketplace and share your install URL with customers.",
+    "evidence": {
+     "kind": "docs",
+     "sources": [
+      "s2"
+     ],
+     "confidence": "high"
+    }
+   },
+   {
+    "id": "beta",
+    "name": "Unlisted, capped installs",
+    "whoCanConnect": "Up to 25 real HubSpot accounts, not counting developer test accounts. If you choose private distribution instead, the limit is 10 allowlisted accounts, or 100 for Solutions Partners.",
+    "userSees": "The standard HubSpot install screen, marked as an unverified app that isn't listed on the Marketplace.",
+    "effort": {
+     "min": 1,
+     "max": 4,
+     "unit": "hours"
+    },
+    "wait": {
+     "min": 0,
+     "max": 0,
+     "unit": "minutes"
+    },
+    "unlock": "Get at least 3 active installs from accounts outside your company, then get the Marketplace listing approved.",
+    "evidence": {
+     "kind": "docs",
+     "sources": [
+      "s3",
+      "s4"
+     ],
+     "confidence": "high"
+    }
+   },
+   {
+    "id": "launch",
+    "name": "Marketplace listing",
+    "whoCanConnect": "Any HubSpot account, with no install cap.",
+    "userSees": "The standard install screen, plus your public listing on the HubSpot App Marketplace.",
+    "effort": {
+     "min": 1,
+     "max": 2,
+     "unit": "days"
+    },
+    "wait": {
+     "min": 2,
+     "max": 10,
+     "unit": "weeks"
+    },
+    "unlock": null,
+    "evidence": {
+     "kind": "docs",
+     "sources": [
+      "s5",
+      "s6"
+     ],
+     "confidence": "medium"
+    }
+   }
+  ],
+  "requirements": [
+   {
+    "id": "developer-account",
+    "label": "HubSpot developer account",
+    "detail": "A free developer account at developers.hubspot.com. You create apps, projects and test accounts there.",
+    "stage": "build",
+    "actor": "you",
+    "evidence": {
+     "kind": "docs",
+     "sources": [
+      "s2"
+     ],
+     "confidence": "high"
+    }
+   },
+   {
+    "id": "hubspot-cli",
+    "label": "HubSpot CLI v7.6.0 or later",
+    "detail": "New apps can only be created as CLI projects. Legacy public app creation in the UI ended on June 23, 2026.",
+    "stage": "build",
+    "actor": "agent",
+    "evidence": {
+     "kind": "docs",
+     "sources": [
+      "s2",
+      "s7"
+     ],
+     "confidence": "high"
+    }
+   },
+   {
+    "id": "https-redirect",
+    "label": "HTTPS redirect URI",
+    "detail": "At least one redirect URL. It must use HTTPS, except http://localhost for testing.",
+    "stage": "build",
+    "actor": "agent",
+    "evidence": {
+     "kind": "docs",
+     "sources": [
+      "s8"
+     ],
+     "confidence": "medium"
+    }
+   },
+   {
+    "id": "three-installs",
+    "label": "3 active installs from outside your company",
+    "detail": "Unique production HubSpot accounts not affiliated with you, each showing successful OAuth API, webhook or extension activity in the past 30 days.",
+    "stage": "launch",
+    "actor": "you",
+    "evidence": {
+     "kind": "docs",
+     "sources": [
+      "s5"
+     ],
+     "confidence": "high"
+    }
+   },
+   {
+    "id": "public-docs",
+    "label": "Privacy policy, terms, support contact and setup guide",
+    "detail": "Live, public URLs for your privacy policy, terms of service and support resources, plus a public setup guide written for this integration. Each URL must be 250 characters or fewer.",
+    "stage": "launch",
+    "actor": "you",
+    "evidence": {
+     "kind": "docs",
+     "sources": [
+      "s5"
+     ],
+     "confidence": "high"
+    }
+   },
+   {
+    "id": "partner-agreement",
+    "label": "Technology Partner Program Agreement",
+    "detail": "You must accept HubSpot's Technology Partner Program Agreement before you can list.",
+    "stage": "launch",
+    "actor": "you",
+    "evidence": {
+     "kind": "docs",
+     "sources": [
+      "s5"
+     ],
+     "confidence": "high"
+    }
+   }
+  ],
+  "steps": [
+   {
+    "id": "create-dev-account",
+    "title": "Create a HubSpot developer account",
+    "actor": "you",
+    "stage": "build",
+    "time": {
+     "min": 5,
+     "max": 15,
+     "unit": "minutes"
+    },
+    "detail": "Sign up for a free developer account. Then go to Development > Test accounts and create a developer test account.",
+    "actions": [
+     "Sign up at developers.hubspot.com",
+     "Create a developer test account under Development > Test accounts"
+    ],
+    "agentNote": "Once you're signed in, an agent can create the test account.",
+    "link": {
+     "label": "HubSpot developer portal",
+     "url": "https://developers.hubspot.com/"
+    },
+    "evidence": {
+     "kind": "docs",
+     "sources": [
+      "s2"
+     ],
+     "confidence": "high"
+    }
+   },
+   {
+    "id": "install-cli",
+    "title": "Install and authenticate the HubSpot CLI",
+    "actor": "you",
+    "stage": "build",
+    "time": {
+     "min": 5,
+     "max": 10,
+     "unit": "minutes"
+    },
+    "detail": "Run npm install -g @hubspot/cli@latest, then hs account auth. The auth step opens a browser so you can generate a personal access key for the CLI.",
+    "actions": [
+     "npm install -g @hubspot/cli@latest",
+     "hs account auth"
+    ],
+    "agentNote": "An agent can install the CLI. You complete the browser sign-in and paste the personal access key yourself.",
+    "gotcha": "You need CLI v7.6.0 or later. Older versions can't create 2025.2 or 2026.03 projects.",
+    "link": {
+     "label": "Create an app",
+     "url": "https://developers.hubspot.com/docs/apps/developer-platform/build-apps/create-an-app"
+    },
+    "evidence": {
+     "kind": "docs",
+     "sources": [
+      "s2"
+     ],
+     "confidence": "high"
+    }
+   },
+   {
+    "id": "create-project",
+    "title": "Create an OAuth app project",
+    "actor": "agent",
+    "stage": "build",
+    "time": {
+     "min": 10,
+     "max": 30,
+     "unit": "minutes"
+    },
+    "detail": "Run hs project create, choose App, choose marketplace distribution and oauth auth. In src/app/app-hsmeta.json, set auth.redirectUrls to your redirect URI and list your requiredScopes, plus any optionalScopes or conditionallyRequiredScopes.",
+    "actions": [
+     "hs project create (App, distribution: marketplace, auth: oauth)",
+     "Set auth.redirectUrls to your redirect URI",
+     "Set requiredScopes (at least one), optionalScopes and conditionallyRequiredScopes",
+     "hs project upload"
+    ],
+    "agentNote": "An agent can do all of this from the terminal.",
+    "gotcha": "Choose marketplace distribution if you want to go past 10 accounts. Private distribution stops at 10 allowlisted accounts, but you can switch a private app to marketplace distribution later without breaking existing installs.",
+    "link": {
+     "label": "App configuration",
+     "url": "https://developers.hubspot.com/docs/apps/developer-platform/build-apps/app-configuration"
+    },
+    "evidence": {
+     "kind": "docs",
+     "sources": [
+      "s2",
+      "s8",
+      "s3"
+     ],
+     "confidence": "high"
+    }
+   },
+   {
+    "id": "copy-credentials",
+    "title": "Copy the client ID and secret",
+    "actor": "you",
+    "stage": "build",
+    "time": {
+     "min": 5,
+     "max": 10,
+     "unit": "minutes"
+    },
+    "detail": "Run hs project open, click your app under Project Components and open the Auth tab. Copy the client ID and client secret into your OAuth client's secure configuration.",
+    "actions": [
+     "hs project open",
+     "Project Components > your app > Auth tab > Client credentials"
+    ],
+    "agentNote": "An agent can open the page and copy the client ID. You copy the client secret.",
+    "image": {
+     "url": "https://developers.hubspot.com/hubfs/Knowledge_Base_2023-24-25/developer/app-authentication-details-no-app-id.png",
+     "alt": "Client credentials on the app's Auth tab",
+     "source": "s2"
+    },
+    "evidence": {
+     "kind": "docs",
+     "sources": [
+      "s2"
+     ],
+     "confidence": "high"
+    }
+   },
+   {
+    "id": "test-install",
+    "title": "Install the app in your test account",
+    "actor": "agent",
+    "stage": "build",
+    "time": {
+     "min": 5,
+     "max": 15,
+     "unit": "minutes"
+    },
+    "detail": "On the app's Distribution tab, click Add test install(s), then Install next to your test account. Tick the box to authorize the unverified app and click Connect app, then confirm your OAuth client receives tokens.",
+    "actions": [
+     "Projects > your project > app UID > Distribution tab",
+     "Add test install(s) > Install > tick the unverified app box > Connect app"
+    ],
+    "agentNote": "An agent can run the install and check that the connection works.",
+    "gotcha": "Test installs don't count toward the listing requirement of 3 active installs.",
+    "image": {
+     "url": "https://www.hubspot.com/hubfs/Knowledge_Base_2023-24-25/developer/install-new-app-in-test-account.png",
+     "alt": "Starting an app installation in a developer test account",
+     "source": "s2"
+    },
+    "evidence": {
+     "kind": "docs",
+     "sources": [
+      "s2"
+     ],
+     "confidence": "high"
+    }
+   },
+   {
+    "id": "onboard-early-customers",
+    "title": "Onboard your first customers (25 max)",
+    "actor": "you",
+    "stage": "beta",
+    "time": {
+     "min": 1,
+     "max": 4,
+     "unit": "hours"
+    },
+    "detail": "Share your install URL with real customers. You get up to 25 installs until the listing is approved, and at least 3 of them must be outside your company and active in the past 30 days.",
+    "gotcha": "HubSpot moderators say there are no exceptions to the 25-install cap before listing approval.",
+    "evidence": {
+     "kind": "docs",
+     "sources": [
+      "s3",
+      "s4"
+     ],
+     "confidence": "high"
+    }
+   },
+   {
+    "id": "prepare-listing",
+    "title": "Prepare the Marketplace listing",
+    "actor": "you",
+    "stage": "launch",
+    "time": {
+     "min": 1,
+     "max": 2,
+     "unit": "days"
+    },
+    "detail": "Write the listing. It needs a Shared data table covering every object in your scopes, pricing that matches your website, live privacy and terms URLs, a support contact and a public setup guide. Accept the Technology Partner Program Agreement.",
+    "actions": [
+     "Fill in the listing content and the Shared data table",
+     "Add the privacy policy, terms, support and setup guide URLs",
+     "Accept the Technology Partner Program Agreement"
+    ],
+    "agentNote": "An agent can draft the listing text and check that every URL loads. You accept the agreement.",
+    "gotcha": "Broken or unreachable links are a common reason for rejection. Allowlist HubSpot's crawler user agent on your site.",
+    "link": {
+     "label": "Listing requirements",
+     "url": "https://developers.hubspot.com/docs/apps/developer-platform/list-apps/listing-your-app/app-marketplace-listing-requirements"
+    },
+    "evidence": {
+     "kind": "docs",
+     "sources": [
+      "s5",
+      "s4"
+     ],
+     "confidence": "high"
+    }
+   },
+   {
+    "id": "submit-listing",
+    "title": "Submit the listing for review",
+    "actor": "you",
+    "stage": "launch",
+    "time": {
+     "min": 15,
+     "max": 30,
+     "unit": "minutes"
+    },
+    "detail": "Submit the listing. You can only have one app under review at a time, and any others you submit during that review are rejected automatically.",
+    "evidence": {
+     "kind": "docs",
+     "sources": [
+      "s5"
+     ],
+     "confidence": "high"
+    }
+   },
+   {
+    "id": "await-review",
+    "title": "Wait for Ecosystem Quality review",
+    "actor": "provider",
+    "stage": "launch",
+    "time": {
+     "min": 2,
+     "max": 10,
+     "unit": "weeks"
+    },
+    "detail": "The initial review is due within 10 business days. HubSpot says the full feedback cycle should take no more than 60 days from when feedback is shared. Once the listing is approved, the install cap is removed automatically.",
+    "gotcha": "If the listing goes back to draft without an email, ask support or the Ecosystem Quality team for the reason.",
+    "evidence": {
+     "kind": "docs",
+     "sources": [
+      "s5",
+      "s4"
+     ],
+     "confidence": "medium"
+    }
+   }
+  ],
+  "scopes": {
+   "intro": "Most CRM scopes (for example crm.objects.contacts.read) need no extra approval beyond the listing review. Sensitive-data scopes do.",
+   "tiers": [
+    {
+     "scope": "crm.objects.*.read / .write (standard CRM scopes)",
+     "grants": "Read and write access to standard CRM objects",
+     "level": "basic",
+     "consequence": "Nothing extra. Each one must be used by the app and listed in the Shared data table."
+    },
+    {
+     "scope": "crm.objects.contacts.sensitive.read / .write",
+     "grants": "Access to properties marked as sensitive data",
+     "level": "sensitive",
+     "consequence": "For marketplace apps, you must ask the Ecosystem Quality team to allowlist the scope, then pass testing and compliance checks. Existing users must reauthorize the app."
+    },
+    {
+     "scope": "crm.objects.contacts.highly_sensitive.read / .write",
+     "grants": "Access to properties marked as highly sensitive data",
+     "level": "restricted",
+     "consequence": "Same approval process as sensitive scopes. App cards can't use sensitive data scopes."
+    }
+   ]
+  },
+  "blockers": [
+   {
+    "symptom": "Installs fail once 25 accounts have connected",
+    "cause": "Unlisted marketplace apps on platform 2025.2 or later are capped at 25 installs.",
+    "fix": "Get the Marketplace listing approved. HubSpot makes no exceptions before then.",
+    "evidence": {
+     "kind": "docs",
+     "sources": [
+      "s3",
+      "s4"
+     ],
+     "confidence": "high"
+    }
+   },
+   {
+    "symptom": "No option to create a public app in the developer account UI",
+    "cause": "Legacy public app creation ended on June 23, 2026.",
+    "fix": "Create the app as a CLI project with hs project create.",
+    "evidence": {
+     "kind": "docs",
+     "sources": [
+      "s7"
+     ],
+     "confidence": "medium"
+    }
+   },
+   {
+    "symptom": "A migrated legacy app with more than 25 installs starts hitting errors",
+    "cause": "Migrating to the new platform applies the 25-install cap automatically.",
+    "fix": "Get the listing approved before you migrate, or file a support request.",
+    "evidence": {
+     "kind": "docs",
+     "sources": [
+      "s3"
+     ],
+     "confidence": "high"
+    }
+   },
+   {
+    "symptom": "Listing sent back to draft",
+    "cause": "Usually broken or unreachable links (privacy policy, support page or install link), or fewer than 3 qualifying active installs.",
+    "fix": "Check every URL, allowlist HubSpot's crawler on your site and ask Ecosystem Quality for the specific reason.",
+    "evidence": {
+     "kind": "community",
+     "sources": [
+      "s4",
+      "s5"
+     ],
+     "confidence": "medium"
+    }
+   }
+  ],
+  "unknowns": [
+   {
+    "question": "Does the listing review still ask for test login credentials, or only demo videos?",
+    "why": "A third-party blog says demo videos replaced credentials from March 31, 2026. The official requirements page doesn't mention either.",
+    "resolve": "Check the listing submission form in your developer account."
+   },
+   {
+    "question": "How long do listing reviews take in practice?",
+    "why": "Only HubSpot's stated targets were found, not first-hand developer timelines.",
+    "resolve": "Search the HubSpot Developer community forum, or ask your Ecosystem Quality contact."
+   },
+   {
+    "question": "Does the 25-install cap apply to MCP Auth apps?",
+    "why": "A community thread raised the question but didn't get a clear answer.",
+    "resolve": "Ask in the HubSpot developer community or contact HubSpot support."
+   }
+  ],
+  "handoff": {
+   "agentCan": [
+    "Install the HubSpot CLI and scaffold the project",
+    "Set the redirect URI and scopes in app-hsmeta.json and upload the project",
+    "Create a developer test account and run a test install",
+    "Draft the listing text and check that the policy and support URLs load"
+   ],
+   "youMust": [
+    "Sign up for the developer account and complete CLI authentication",
+    "Copy the client secret into your OAuth client",
+    "Get 3 or more active installs from accounts outside your company",
+    "Accept the Technology Partner Program Agreement and submit the listing",
+    "Request sensitive-data scopes from Ecosystem Quality if you need them"
+   ]
+  },
+  "sources": [
+   {
+    "id": "s1",
+    "title": "Composio managed auth toolkits",
+    "url": "https://docs.composio.dev/toolkits/managed-auth.md",
+    "publisher": "Composio docs",
+    "kind": "composio",
+    "checkedAt": "2026-10-27"
+   },
+   {
+    "id": "s2",
+    "title": "Create an app",
+    "url": "https://developers.hubspot.com/docs/apps/developer-platform/build-apps/create-an-app",
+    "publisher": "HubSpot developer docs",
+    "kind": "official",
+    "checkedAt": "2026-10-27"
+   },
+   {
+    "id": "s3",
+    "title": "New marketplace distribution app install limits",
+    "url": "https://developers.hubspot.com/changelog/new-marketplace-distribution-app-install-limits",
+    "publisher": "HubSpot developer changelog",
+    "kind": "official",
+    "checkedAt": "2026-10-27"
+   },
+   {
+    "id": "s4",
+    "title": "App installs limit",
+    "url": "https://community.hubspot.com/t/app-installs-limit/152805",
+    "publisher": "HubSpot Community",
+    "kind": "search",
+    "checkedAt": null
+   },
+   {
+    "id": "s5",
+    "title": "App Marketplace listing requirements",
+    "url": "https://developers.hubspot.com/docs/apps/developer-platform/list-apps/listing-your-app/app-marketplace-listing-requirements",
+    "publisher": "HubSpot developer docs",
+    "kind": "official",
+    "checkedAt": "2026-10-27"
+   },
+   {
+    "id": "s6",
+    "title": "Listing a SaaS product on the HubSpot App Marketplace",
+    "url": "https://www.spotdev.co.uk/blog/how-to-list-a-saas-product-on-hubspot-app-marketplace",
+    "publisher": "SpotDev",
+    "kind": "search",
+    "checkedAt": null
+   },
+   {
+    "id": "s7",
+    "title": "Legacy public app creation sunset",
+    "url": "https://developers.hubspot.com/changelog/legacy-public-app-creation-sunset",
+    "publisher": "HubSpot developer changelog",
+    "kind": "search",
+    "checkedAt": null
+   },
+   {
+    "id": "s8",
+    "title": "App configuration",
+    "url": "https://developers.hubspot.com/docs/apps/developer-platform/build-apps/app-configuration",
+    "publisher": "HubSpot developer docs",
+    "kind": "search",
+    "checkedAt": null
+   },
+   {
+    "id": "s9",
+    "title": "Access and manage sensitive data",
+    "url": "https://developers.hubspot.com/docs/api/sensitive-data",
+    "publisher": "HubSpot developer docs",
+    "kind": "search",
+    "checkedAt": null
+   }
+  ]
+ },
+ {
+  "slug": "pinterest",
+  "name": "Pinterest",
+  "domain": "pinterest.com",
+  "category": "Social media",
+  "summary": "Getting to public launch takes two manual reviews with no published timelines. Pinterest must approve your app request before you get any credentials (Trial access), and it must approve a Standard access upgrade, which needs a demo video of the full OAuth flow, before content your app creates is public.",
+  "tier": "reviewed",
+  "tierReason": "You get no app ID or secret until Pinterest approves your Trial request, and while on Trial, Pins and boards your app creates are sandboxed and visible only to their creator until Pinterest approves the Standard upgrade.",
+  "quality": "researched",
+  "updatedAt": "2026-10-27",
+  "composio": {
+   "status": "managed",
+   "note": "Composio lists Pinterest under Composio-managed OAuth, so you can prototype without waiting for Pinterest's reviews. Register your own app before launch so your name is on the consent screen and you control rate limits.",
+   "toolkit": "PINTEREST"
+  },
+  "totals": {
+   "effort": {
+    "min": 3,
+    "max": 8,
+    "unit": "hours"
+   },
+   "wait": {
+    "min": 2,
+    "max": 6,
+    "unit": "weeks"
+   },
+   "firstConnection": "After Pinterest approves your Trial request, usually 1 to 2 weeks after you submit it, according to forum reports"
+  },
+  "stages": [
+   {
+    "id": "build",
+    "name": "Trial request",
+    "whoCanConnect": "No one yet. You get credentials only after Pinterest approves the Trial request.",
+    "userSees": "Nothing. There's no app ID until approval.",
+    "effort": {
+     "min": 30,
+     "max": 90,
+     "unit": "minutes"
+    },
+    "wait": {
+     "min": 1,
+     "max": 2,
+     "unit": "weeks"
+    },
+    "unlock": "Pinterest emails you that Trial access is approved.",
+    "evidence": {
+     "kind": "docs",
+     "sources": [
+      "s1",
+      "s2",
+      "s6"
+     ],
+     "confidence": "medium"
+    }
+   },
+   {
+    "id": "beta",
+    "name": "Trial access",
+    "whoCanConnect": "Your own account. Other Pinterest users can likely authorize too, but whatever your app creates stays sandboxed.",
+    "userSees": "The standard Pinterest OAuth consent screen. Pins and boards created through the API are visible only to their creator.",
+    "effort": {
+     "min": 2,
+     "max": 6,
+     "unit": "hours"
+    },
+    "wait": null,
+    "unlock": "Submit a Standard access upgrade with a demo video, and wait for Pinterest to approve it.",
+    "evidence": {
+     "kind": "docs",
+     "sources": [
+      "s2",
+      "s7"
+     ],
+     "confidence": "medium"
+    }
+   },
+   {
+    "id": "launch",
+    "name": "Standard access",
+    "whoCanConnect": "Any Pinterest user",
+    "userSees": "The standard Pinterest OAuth consent screen. Created content is public, and rate limits are higher.",
+    "effort": null,
+    "wait": {
+     "min": 1,
+     "max": 4,
+     "unit": "weeks"
+    },
+    "unlock": null,
+    "evidence": {
+     "kind": "community",
+     "sources": [
+      "s2",
+      "s8",
+      "s9"
+     ],
+     "confidence": "low"
+    }
+   }
+  ],
+  "requirements": [
+   {
+    "id": "business-account",
+    "label": "Pinterest business account",
+    "detail": "The developer app must be linked to a Pinterest business account with a verified email. Apps linked only to personal accounts don't appear in the Developer Portal.",
+    "stage": "build",
+    "actor": "you",
+    "evidence": {
+     "kind": "docs",
+     "sources": [
+      "s1",
+      "s5"
+     ],
+     "confidence": "high"
+    }
+   },
+   {
+    "id": "public-site-privacy-policy",
+    "label": "Public website and privacy policy on the same domain",
+    "detail": "You need a live, public privacy policy specific to your app or company, hosted on the same domain as the app URL you submit. A mismatch triggers a 'privacy policy match error'.",
+    "stage": "build",
+    "actor": "you",
+    "evidence": {
+     "kind": "community",
+     "sources": [
+      "s5",
+      "s6"
+     ],
+     "confidence": "medium"
+    }
+   },
+   {
+    "id": "demo-video",
+    "label": "Demo video of the OAuth flow and a live API action",
+    "detail": "The Standard upgrade requires a recording that shows a user connecting through Pinterest OAuth, returning to your redirect URI, and a successful live API call. A terminal or Postman recording is accepted for single-user apps.",
+    "stage": "launch",
+    "actor": "you",
+    "evidence": {
+     "kind": "docs",
+     "sources": [
+      "s2",
+      "s4"
+     ],
+     "confidence": "high"
+    }
+   }
+  ],
+  "steps": [
+   {
+    "id": "accept-dev-terms",
+    "title": "Sign in with a business account and accept terms",
+    "actor": "you",
+    "stage": "build",
+    "time": {
+     "min": 5,
+     "max": 15,
+     "unit": "minutes"
+    },
+    "detail": "Sign in to or create a Pinterest business account and verify its email. Then open My apps on developers.pinterest.com and accept the Developer Terms of Service.",
+    "actions": [
+     "Sign in to or create a Pinterest business account",
+     "Verify the account's email address",
+     "Open My apps and accept the Developer Terms of Service"
+    ],
+    "agentNote": "A person must sign in and accept the terms.",
+    "gotcha": "Apps linked to a personal account don't appear in the portal. Convert to a business account or use one first.",
+    "link": {
+     "label": "My apps",
+     "url": "https://developers.pinterest.com/apps/"
+    },
+    "evidence": {
+     "kind": "docs",
+     "sources": [
+      "s1",
+      "s5"
+     ],
+     "confidence": "high"
+    }
+   },
+   {
+    "id": "submit-connect-app",
+    "title": "Fill in the Connect app request form",
+    "actor": "agent",
+    "stage": "build",
+    "time": {
+     "min": 15,
+     "max": 45,
+     "unit": "minutes"
+    },
+    "detail": "Select Connect app and fill in the request form with your app name, a specific description of your use case, your website and your privacy policy URL. The name needs at least 3 Latin letters or numbers and can't contain 'Pinterest'.",
+    "actions": [
+     "Select Connect app",
+     "Enter an app name without the word 'Pinterest'",
+     "Write a specific description of what your app does with Pinterest",
+     "Enter your website URL and a privacy policy URL on the same domain"
+    ],
+    "agentNote": "An agent can fill in the form. A person should review the description and submit the Trial request.",
+    "gotcha": "Vague descriptions and privacy policy URLs that are inaccessible or off-domain get denied. Valid URLs have also been rejected with an 'include your company name' error.",
+    "link": {
+     "label": "My apps",
+     "url": "https://developers.pinterest.com/apps/"
+    },
+    "image": {
+     "url": "https://i.pinimg.com/originals/e4/98/6e/e4986eb1bdb46c112f33a67ab8945990.png",
+     "alt": "My apps page in the Pinterest developer portal",
+     "source": "s1"
+    },
+    "evidence": {
+     "kind": "docs",
+     "sources": [
+      "s1",
+      "s2",
+      "s6"
+     ],
+     "confidence": "high"
+    }
+   },
+   {
+    "id": "wait-trial",
+    "title": "Wait for Trial access approval",
+    "actor": "provider",
+    "stage": "build",
+    "time": {
+     "min": 1,
+     "max": 2,
+     "unit": "weeks"
+    },
+    "detail": "Pinterest reviews each request and emails you the decision. It publishes no timeframe. Forum posts report waits of one to two weeks or more.",
+    "gotcha": "If you're denied, appeal through a Help Center ticket and allow a few days before following up.",
+    "evidence": {
+     "kind": "community",
+     "sources": [
+      "s1",
+      "s8"
+     ],
+     "confidence": "low"
+    }
+   },
+   {
+    "id": "copy-credentials",
+    "title": "Copy the app ID and app secret",
+    "actor": "you",
+    "stage": "beta",
+    "time": {
+     "min": 5,
+     "max": 10,
+     "unit": "minutes"
+    },
+    "detail": "Once approved, open My apps and copy the app ID and app secret from your app details. Store the secret in your OAuth client's secure configuration.",
+    "actions": [
+     "Open My apps and select your app",
+     "Copy the app ID",
+     "Copy the app secret into your OAuth client's secret store"
+    ],
+    "agentNote": "An agent can copy the app ID. A person must handle the app secret.",
+    "link": {
+     "label": "My apps",
+     "url": "https://developers.pinterest.com/apps/"
+    },
+    "evidence": {
+     "kind": "docs",
+     "sources": [
+      "s1"
+     ],
+     "confidence": "high"
+    }
+   },
+   {
+    "id": "add-redirect-uri",
+    "title": "Add your redirect URI",
+    "actor": "agent",
+    "stage": "beta",
+    "time": {
+     "min": 5,
+     "max": 10,
+     "unit": "minutes"
+    },
+    "detail": "In My apps, select Manage, open the Configure tab, enter your redirect URI under Redirect URIs, and select Add. The redirect_uri in your OAuth requests must match exactly.",
+    "actions": [
+     "Select Manage on your app",
+     "Open the Configure tab",
+     "Enter your redirect URI under Redirect URIs and select Add"
+    ],
+    "agentNote": "An agent can paste your OAuth client's redirect URI here.",
+    "gotcha": "Protocol, path and trailing slash must match exactly, and the redirect URI can't pass through a second redirect.",
+    "link": {
+     "label": "My apps",
+     "url": "https://developers.pinterest.com/apps/"
+    },
+    "image": {
+     "url": "https://i.pinimg.com/originals/2d/e2/38/2de2385546de5e98ae5c62f5acffb4c3.png",
+     "alt": "Redirect URIs field on the app's Configure tab",
+     "source": "s1"
+    },
+    "evidence": {
+     "kind": "docs",
+     "sources": [
+      "s1",
+      "s4"
+     ],
+     "confidence": "high"
+    }
+   },
+   {
+    "id": "configure-oauth-client",
+    "title": "Configure your OAuth client and test a connection",
+    "actor": "agent",
+    "stage": "beta",
+    "time": {
+     "min": 30,
+     "max": 120,
+     "unit": "minutes"
+    },
+    "detail": "Set the authorize URL to https://www.pinterest.com/oauth/ with response_type=code and comma-separated scopes, and the token URL to https://api.pinterest.com/v5/oauth/token with HTTP Basic auth. Then connect your own account and make a test call.",
+    "actions": [
+     "Authorize URL: https://www.pinterest.com/oauth/",
+     "Token URL: https://api.pinterest.com/v5/oauth/token (Basic auth with the app ID and secret)",
+     "Request only the scopes you need, e.g. boards:read,pins:read,pins:write",
+     "Verify the state parameter on return"
+    ],
+    "agentNote": "An agent can set the non-secret fields and run a test connection. A person enters the secret.",
+    "gotcha": "On Trial, Pins you create are visible only to their creator, so missing Pins don't mean the call failed.",
+    "evidence": {
+     "kind": "docs",
+     "sources": [
+      "s3",
+      "s2",
+      "s7"
+     ],
+     "confidence": "medium"
+    }
+   },
+   {
+    "id": "record-demo",
+    "title": "Record a demo video of OAuth and a live API call",
+    "actor": "you",
+    "stage": "launch",
+    "time": {
+     "min": 1,
+     "max": 3,
+     "unit": "hours"
+    },
+    "detail": "Record a user starting the connection in your app, authorizing on Pinterest, returning to your redirect URI, and your app completing a live API action. Slides, mockups and generic product tours are rejected.",
+    "actions": [
+     "Show the user starting the connection in your app",
+     "Show the Pinterest authorization screen",
+     "Show the return to your redirect URI",
+     "Show a live API action and its result"
+    ],
+    "agentNote": "An agent can drive the flow while a person records it.",
+    "gotcha": "The most common denial reasons are a demo that doesn't show the full OAuth flow or doesn't show the Pinterest integration.",
+    "evidence": {
+     "kind": "docs",
+     "sources": [
+      "s2",
+      "s4"
+     ],
+     "confidence": "high"
+    }
+   },
+   {
+    "id": "submit-upgrade",
+    "title": "Submit the Standard access upgrade",
+    "actor": "you",
+    "stage": "launch",
+    "time": {
+     "min": 10,
+     "max": 20,
+     "unit": "minutes"
+    },
+    "detail": "In My apps, select Upgrade on the app card, check your use case and privacy policy link, upload the video and submit.",
+    "actions": [
+     "Select Upgrade on the app card",
+     "Confirm the use case and privacy policy link",
+     "Upload the demo video",
+     "Submit"
+    ],
+    "agentNote": "A person should submit the review request.",
+    "gotcha": "The Upgrade button appears only for eligible apps that already have Trial access.",
+    "link": {
+     "label": "My apps",
+     "url": "https://developers.pinterest.com/apps/"
+    },
+    "evidence": {
+     "kind": "docs",
+     "sources": [
+      "s2"
+     ],
+     "confidence": "high"
+    }
+   },
+   {
+    "id": "wait-standard",
+    "title": "Wait for Standard access approval",
+    "actor": "provider",
+    "stage": "launch",
+    "time": {
+     "min": 1,
+     "max": 4,
+     "unit": "weeks"
+    },
+    "detail": "Pinterest emails you the decision and publishes no timeframe. Forum posts report pending times from about two weeks to more than 26 days.",
+    "gotcha": "After approval, retest the OAuth flow and confirm your tokens and scopes in production.",
+    "evidence": {
+     "kind": "community",
+     "sources": [
+      "s8",
+      "s9"
+     ],
+     "confidence": "low"
+    }
+   }
+  ],
+  "blockers": [
+   {
+    "symptom": "The privacy policy URL is rejected on app creation with a 'privacy policy match error' or 'include your company name' message.",
+    "cause": "The privacy policy URL's domain doesn't match your company or app domain. Some valid URLs are also reported rejected, possibly a validator bug.",
+    "fix": "Host the privacy policy on the same domain as your app URL. If a matching URL is still rejected, open a support ticket.",
+    "evidence": {
+     "kind": "community",
+     "sources": [
+      "s5",
+      "s6",
+      "s10"
+     ],
+     "confidence": "medium"
+    }
+   },
+   {
+    "symptom": "Pins created through the API don't appear publicly.",
+    "cause": "On Trial access, Pins and boards are sandboxed and visible only to their creator.",
+    "fix": "Apply for Standard access.",
+    "evidence": {
+     "kind": "docs",
+     "sources": [
+      "s2",
+      "s7"
+     ],
+     "confidence": "high"
+    }
+   },
+   {
+    "symptom": "HTTP 403 PINNER_DATA_ACCESS_DENIED when reading a board or Pin.",
+    "cause": "Apps registered on or after September 14, 2026 can't read non-business users' boards or Pins without authorization.",
+    "fix": "Have the owning user authorize your app, or read only authorized content.",
+    "evidence": {
+     "kind": "docs",
+     "sources": [
+      "s2"
+     ],
+     "confidence": "medium"
+    }
+   },
+   {
+    "symptom": "The Standard upgrade is denied.",
+    "cause": "The demo video didn't show the full OAuth flow or a live Pinterest integration.",
+    "fix": "Re-record the demo showing consent, the redirect and a live API call, then resubmit or appeal through the Help Center.",
+    "evidence": {
+     "kind": "docs",
+     "sources": [
+      "s2",
+      "s4"
+     ],
+     "confidence": "high"
+    }
+   }
+  ],
+  "unknowns": [
+   {
+    "question": "Can Pinterest users other than the app owner authorize a Trial-access app?",
+    "why": "The docs say only that Trial content is visible to its creator, with no user cap stated.",
+    "resolve": "Authorize a second test account during Trial, or ask on community.pinterest.biz."
+   },
+   {
+    "question": "What are the exact Trial and Standard rate limits?",
+    "why": "The docs give only rate limit categories, and a third-party source cites 1,000 requests a day for Trial.",
+    "resolve": "Check the rate limits page in the Pinterest developer docs and the response headers."
+   },
+   {
+    "question": "Do ads or catalog scopes need extra approval?",
+    "why": "The official scopes page couldn't be fetched (404).",
+    "resolve": "Review the scopes list on developers.pinterest.com after you sign in."
+   },
+   {
+    "question": "How long do access tokens and refresh tokens last?",
+    "why": "The official sample shows a 30-day access token, but a third-party guide says otherwise.",
+    "resolve": "Inspect expires_in and refresh_token_expires_in in a token response."
+   }
+  ],
+  "handoff": {
+   "agentCan": [
+    "Fill in the Connect app form",
+    "Add the redirect URI on the Configure tab",
+    "Configure the non-secret OAuth client settings and test a connection",
+    "Drive the app flow while a person records the demo"
+   ],
+   "youMust": [
+    "Sign in with a business account and accept the Developer Terms",
+    "Publish a privacy policy on your app's domain",
+    "Submit the Trial request and the Standard upgrade",
+    "Handle the app secret",
+    "Record the demo video"
+   ]
+  },
+  "sources": [
+   {
+    "id": "s1",
+    "title": "Connect app",
+    "url": "https://developers.pinterest.com/docs/getting-started/connect-app/",
+    "publisher": "Pinterest developer docs",
+    "kind": "official",
+    "checkedAt": "2026-10-27"
+   },
+   {
+    "id": "s2",
+    "title": "Access tiers",
+    "url": "https://developers.pinterest.com/docs/key-concepts/access-tiers/",
+    "publisher": "Pinterest developer docs",
+    "kind": "official",
+    "checkedAt": "2026-10-27"
+   },
+   {
+    "id": "s3",
+    "title": "Scopes",
+    "url": "https://developers.pinterest.com/docs/getting-started/scopes/",
+    "publisher": "Pinterest developer docs",
+    "kind": "search",
+    "checkedAt": "2026-10-27"
+   },
+   {
+    "id": "s4",
+    "title": "Standard Access Walkthrough, a Step by Step Guide",
+    "url": "https://community.pinterest.biz/t/standard-access-walkthrough-a-step-by-step-guide/52518",
+    "publisher": "Pinterest Business Community",
+    "kind": "community",
+    "checkedAt": null
+   },
+   {
+    "id": "s5",
+    "title": "Frequently Asked Questions: Pinterest API",
+    "url": "https://community.pinterest.biz/t/frequently-asked-questions-pinterest-api/2083",
+    "publisher": "Pinterest Business Community",
+    "kind": "community",
+    "checkedAt": null
+   },
+   {
+    "id": "s6",
+    "title": "Getting started with your Pinterest developer app: Trial access",
+    "url": "https://community.pinterest.biz/t/getting-started-with-your-pinterest-developer-app-trial-access/52222",
+    "publisher": "Pinterest Business Community",
+    "kind": "community",
+    "checkedAt": null
+   },
+   {
+    "id": "s7",
+    "title": "Stuck in trial mode \u2014 pins not showing publicly",
+    "url": "https://community.pinterest.biz/t/stuck-in-trial-mode-pins-not-showing-publicly/44410",
+    "publisher": "Pinterest Business Community",
+    "kind": "community",
+    "checkedAt": "2026-10-27"
+   },
+   {
+    "id": "s8",
+    "title": "Trial access approval request pending",
+    "url": "https://community.pinterest.biz/t/trial-access-approval-request-pending/45323",
+    "publisher": "Pinterest Business Community",
+    "kind": "search",
+    "checkedAt": null
+   },
+   {
+    "id": "s9",
+    "title": "Upgrade to Standard access pending 26 days - what is the current review time?",
+    "url": "https://community.pinterest.biz/t/upgrade-to-standard-access-pending-26-days-what-is-the-current-review-time/50445",
+    "publisher": "Pinterest Business Community",
+    "kind": "search",
+    "checkedAt": null
+   },
+   {
+    "id": "s10",
+    "title": "Privacy policy URL rejected on app creation despite valid, live URL",
+    "url": "https://community.pinterest.biz/t/privacy-policy-url-rejected-on-app-creation-despite-valid-live-url/48979",
+    "publisher": "Pinterest Business Community",
+    "kind": "search",
+    "checkedAt": null
+   },
+   {
+    "id": "s11",
+    "title": "Toolkits: managed auth",
+    "url": "https://docs.composio.dev/toolkits/managed-auth.md",
+    "publisher": "Composio docs",
+    "kind": "composio",
+    "checkedAt": "2026-10-27"
+   }
+  ]
+ }
+]
